@@ -166,6 +166,120 @@ body {
     cursor: pointer;
 }
 
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+/* espaço para colocar as coisas do layout 2 */
+
+
+
+
+.layout-3 {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-top: 140px;
+}
+
+.layout-3 .beginning {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.layout-3 .sub-title {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 23px;
+    line-height: 27px;
+
+    color: #000000;
+
+    margin-bottom: 30px;
+}
+
+.layout-3 .inputs-div {
+    width: 600px;
+    height: 256px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 9px;
+
+    background-color: #FFFFFF;
+
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+}
+
+.layout-3 .input {
+    width: 564px;
+    height: 46px;
+
+    text-indent: 23px;
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+    
+    border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.layout-3 .input::placeholder {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 400;
+
+    color: #BABABA;
+}
+
+.layout-3 .continue-to-questions {
+    width: 370px;
+    height: 54px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 85px;
+
+    background-color: #EC362D;
+    border-radius: 15px;
+}
+
+.layout-3 .continue-to-questions p {
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 21px;
+
+    color: #FFF5F4;
+
+}
+
+
+
+
+
 @media (max-width: 1100px) {
 
     .layout-1 {
@@ -187,6 +301,29 @@ body {
         width: 100%;
 
         justify-content: center;
+    }
+
+    .layout-3 .beginning {
+        width: 100%;
+    }
+
+    .layout-3 .inputs-div {
+        width: 100%;
+    }
+
+    .layout-3 .input {
+        width: 90%;
+
+        text-indent: 14px;
+        margin: 0 auto;
+    }
+
+    .layout-3 .continue-to-questions {
+        width: 80%;
+    }
+
+    .layout-3 .continue-to-questions p {
+        font-size: 18px;
     }
 
 }
