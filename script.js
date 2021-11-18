@@ -4,11 +4,14 @@ const layout1 = document.querySelector('.layout-1');
 const layout2 = document.querySelector('.layout-2');
 const layout3 = document.querySelector('.layout-3');
 
-
 const beginning = document.querySelector('.beginning');
 const questions = document.querySelector('.questions');
 const levels = document.querySelector('.levels');
 
+const titleInput = document.querySelector('.input-title');
+const urlInput = document.querySelector('.input-url');
+const questionsQuantity = document.querySelector('.input-questions-quantity');
+const levelsQuantity = document.querySelector('.input-levels-quantity');
 
 function getQuizzes() {   
     const quizzes = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
@@ -73,16 +76,27 @@ function showSelectedQuizz(selectedQuizz) {
 
 
 
-function createQuizz() {
-    console.log('clicou em criar');
-    
+function createQuizz() {   
     layout1.classList.add('hidden');
     layout3.classList.remove('hidden');
 }
 
 function continueToQuestions() {
-    beginning.classList.add('hidden');
-    questions.classList.remove('hidden');
+    console.dir(titleInput.value);
+    console.dir(urlInput.value);
+    console.dir(questionsQuantity.value);
+    console.dir(levelsQuantity.value);
+
+    let validTitle = false;
+    let validUrl = false;
+
+    // se as condicoes forem aceitas, prossigo com essas duas linhas de comando:
+    // beginning.classList.add('hidden');
+    // questions.classList.remove('hidden');
+
+
+
+
 }
 
 function continueToLevels() {
