@@ -43,10 +43,6 @@ body {
     margin-top: 146px;
 }
 
-.hidden {
-    display: none;
-}
-
 .your-quizzes {
     width: 1051px;
     height: 181px;
@@ -217,7 +213,6 @@ body {
 
 .layout-3 .inputs-div {
     width: 600px;
-    height: 256px;
 
     display: flex;
     flex-direction: column;
@@ -225,6 +220,8 @@ body {
     align-items: center;
 
     gap: 9px;
+
+    padding: 24px 0;
 
     background-color: #FFFFFF;
 
@@ -273,10 +270,15 @@ body {
     font-size: 21px;
 
     color: #FFF5F4;
-
 }
 
+.hidden {
+    display: none;
+}
 
+.layout-3 .hidden {
+    display: none;
+}
 
 
 
@@ -319,7 +321,7 @@ body {
     }
 
     .layout-3 .continue-to-questions {
-        width: 80%;
+        width: 85%;
     }
 
     .layout-3 .continue-to-questions p {

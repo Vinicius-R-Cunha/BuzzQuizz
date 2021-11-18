@@ -16,7 +16,7 @@
     <header class="header">
         <h1 onclick="reloadPage()">BuzzQuizz</h1>
     </header>
-    <div class="layout-1">        
+    <div class="layout-1 hidden">        
         <div class="your-quizzes">
             <p>Você não criou nenhum</p>
             <p>quizz ainda :(</p>
@@ -34,7 +34,7 @@
 
     </div>
     
-    <div class="layout-3 hidden">
+    <div class="layout-3">
         <div class="beginning">
             <p class="sub-title">Comece pelo começo</p>
             <div class="inputs-div">
@@ -46,12 +46,17 @@
             <div class="continue-to-questions" onclick="continueToQuestions()">
                 <p>Prosseguir para criar perguntas</p>
             </div>
-
         </div>
-        <div class="questions hidden">
+
+        <div class="question hidden">
             <p class="sub-title">Crie suas perguntas</p>
-
+            <div class="inputs-div">
+                Pergunta 1
+                <input class="input" type="text">
+                <input class="input" type="text">
+            </div>
         </div>
+
         <div class="levels hidden">
             <p class="sub-title">Agora, decida os níveis</p>
 

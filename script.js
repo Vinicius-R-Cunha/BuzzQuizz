@@ -5,6 +5,11 @@ const layout2 = document.querySelector('.layout-2');
 const layout3 = document.querySelector('.layout-3');
 
 
+const beginning = document.querySelector('.beginning');
+const questions = document.querySelector('.questions');
+const levels = document.querySelector('.levels');
+
+
 function getQuizzes() {   
     const quizzes = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
     
@@ -68,20 +73,22 @@ function showSelectedQuizz(selectedQuizz) {
 
 
 
-
-
 function createQuizz() {
     console.log('clicou em criar');
     
-    // esconde o layout-1
     layout1.classList.add('hidden');
-    
-    // tira o escondido do layout-3
     layout3.classList.remove('hidden');
 }
 
+function continueToQuestions() {
+    beginning.classList.add('hidden');
+    questions.classList.remove('hidden');
+}
 
-
+function continueToLevels() {
+    questions.add('hidden');
+    levels.remove('hidden');
+}
 
 
 
