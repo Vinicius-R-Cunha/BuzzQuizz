@@ -29,6 +29,8 @@ body {
     font-size: 37px;
     
     color: #FFFFFF;
+
+    cursor: pointer;
 }
 
 .layout-1 {
@@ -89,6 +91,8 @@ body {
     border: 1px dashed #EC362D;
     box-sizing: border-box;
     border-radius: 50px;
+
+    cursor: pointer;
 }
 
 .all-quizzes-title {
@@ -134,6 +138,8 @@ body {
 
     position: absolute;
     top: 0;
+
+    cursor: pointer;
 }
 
 .all-quizzes .quizz-name {
@@ -156,6 +162,8 @@ body {
     bottom: 10px;
 
     z-index: 1;
+
+    cursor: pointer;
 }
 
 @media (max-width: 1100px) {
