@@ -60,14 +60,11 @@ function openQuizz(quizz) {
     SelectedQuizz.then(showSelectedQuizz);
 }
 
-
-
 function comparador() { 
 	return Math.random() - 0.5; 
 }
 
 function showSelectedQuizz(selectedQuizz) {
-    const layouto2 = document.querySelector(".layout-2");
     const quizzPromesse = selectedQuizz.data;
     layout2.innerHTML =`
     <div class="banner">
@@ -113,16 +110,7 @@ function showSelectedQuizz(selectedQuizz) {
     `
     }
     console.log(selectedQuizz);
-    
 }
-
-
-
-
-
-
-
-
 
 
 function createQuizz() {   
@@ -131,11 +119,7 @@ function createQuizz() {
 }
 
 function continueToQuestions() {
-    console.log(titleInput.value);
-    console.log(urlInput.value);
-    console.log(questionsQuantity.value);
-    console.log(levelsQuantity.value);
-
+    
     let validTitle = false;
     let validUrl = false;
     let validQuestionNumber = false;
@@ -167,15 +151,92 @@ function continueToQuestions() {
         alert("Bobeou amigão");
     }
 
-
-
+    // printa a quantidade de perguntas que precisa a partir da 2;
+    showQuestions(parseInt(questionsQuantity.value));
 }
+
+function showQuestions(num) {
+
+
+
+    for (let i = 2; i < (num+1); i++) {
+        questions.innerHTML += `
+            <div class="inputs-div question-${i}">
+
+                <div class="minimize sub-sub-title" onclick="maximizeQuestion(this)">
+                    <p>Pergunta ${i}</p>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+
+
+                <div class="closed hidden">
+                    <div class="question sub-sub-title"><p>Pergunta ${i}</p>
+                        <input class="input-question margin-top-14" placeholder="Texto da pergunta" type="text">
+                        <input class="color-input margin-top-14" placeholder="Cor de fundo da pergunta" type="text">
+                    </div>
+
+                    <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
+                        <input class="input-question margin-top-14" placeholder="Resposta correta" type="text">
+                        <input class="color-input margin-top-14" placeholder="URL da imagem" type="text">
+                    </div>
+
+                    <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
+                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 1" type="text">
+                        <input class="color-input margin-top-14 margin-bottom" placeholder="URL da imagem 1" type="text">
+
+                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 2" type="text">
+                        <input class="color-input margin-top-14 margin-bottom" placeholder="URL da imagem 2" type="text">
+
+                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 3" type="text">
+                        <input class="color-input margin-top-14" placeholder="URL da imagem 3" type="text">
+                    </div>
+                </div>
+
+            </div>
+        `
+
+
+
+    }
+    questions.innerHTML += `
+        <div class="continue-to-levels" onclick="continueToLevels()">
+            <p>Prosseguir para criar níveis</p>
+        </div>
+    `
+}
+
+function maximizeQuestion(question) {
+    // encontro quem está aberto dentro de questions e fecho
+    const openQuestion = questions.querySelector('.open');
+    openQuestion.classList.add('closed');
+    openQuestion.classList.add('hidden');
+    openQuestion.classList.remove('open');
+
+    // encontro o irmão minimize que está hidden e tiro o hidden
+    const minimize = openQuestion.parentNode.querySelector('.minimize');
+    minimize.classList.remove('hidden');
+
+    // coloco hidden no elemento minimize que foi clicado
+    question.classList.add('hidden');
+
+    // encontro o irmão closed que está hidden, tiro ambas as classes e coloco open
+    const closedDiv = question.parentNode.querySelector('.closed');
+    closedDiv.classList.remove('closed');
+    closedDiv.classList.remove('hidden');
+    closedDiv.classList.add('open');
+}
+
 
 function continueToLevels() {
-    questions.add('hidden');
-    levels.remove('hidden');
-}
 
+
+
+
+
+    // só continua se as perguntas estiver OK
+    questions.classList.add('hidden');
+    levels.classList.remove('hidden');
+}
 
 
 
