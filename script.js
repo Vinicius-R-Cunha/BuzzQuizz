@@ -60,11 +60,60 @@ function openQuizz(quizz) {
     SelectedQuizz.then(showSelectedQuizz);
 }
 
+
+
+function comparador() { 
+	return Math.random() - 0.5; 
+}
+
 function showSelectedQuizz(selectedQuizz) {
-    // essa função recebe o quizz selecionado:
-    // e monta o layout-2 com ele:
+    const layouto2 = document.querySelector(".layout-2");
+    const quizzPromesse = selectedQuizz.data;
+    layout2.innerHTML =`
+    <div class="banner">
+        <img src="${quizzPromesse.image}" alt="">
+    </div>
+    <div class="banner-title">
+        <h1>${quizzPromesse.title}</h1>
+    </div>
+    `
+    const list = [0,1,2,3];
+    list.sort(comparador);
+
+    for(let i = 0 ; i < 3 ; i++){
+    layout2.innerHTML +=`
+    <div class="box-quizz">
+        <div class="quizz-title">
+            <h1>${quizzPromesse.questions[i].title}</h1>
+        </div>
+        <div class="options-quizz">
+            
+            <div class="option">
+                <img src="${quizzPromesse.questions[i].answers[list[0]].image}"> 
+                <p>${quizzPromesse.questions[i].answers[list[0]].text}</p>       
+            </div>
+
+            <div class="option">
+                <img src="${quizzPromesse.questions[i].answers[list[1]].image}">  
+                <p>${quizzPromesse.questions[i].answers[list[1]].text}</p>
+            </div>
+
+            <div class="option">
+                <img src="${quizzPromesse.questions[i].answers[list[2]].image}">
+                <p>${quizzPromesse.questions[i].answers[list[2]].text}</p>
+            </div>
+
+            <div class="option">
+                <img src="${quizzPromesse.questions[i].answers[list[3]].image}">
+                <p>${quizzPromesse.questions[i].answers[list[3]].text}</p>
+            </div>
+
+        </div>
+    </div>
+    `
+    }
     console.log(selectedQuizz);
-    // com esse selectedQuizz.data temos todos os dados desse quizz para criar o layout-2
+    
 }
 
 

@@ -162,18 +162,17 @@ body {
     cursor: pointer;
 }
 
-
 .layout-2{
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-
+    padding-bottom: 40px;
     background: #E5E5E5;
 }
 
 .banner{
-    background:linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57)), url(../media/poster.png);
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57));
     height: 227px;
     display: flex;
     justify-content: center;
@@ -181,9 +180,27 @@ body {
 
     margin-top: 69px;
     width: 100%;
+    position: relative;
 }
 
-.banner h1{
+.banner img{
+    width: 100%;
+    height: 227px;
+    object-fit: cover;
+}
+
+.banner-title{
+    position: absolute;
+    width: 100%;
+    background:linear-gradient(0deg, rgba(0, 0, 0, 0.57), rgba(0, 0, 0, 0.57));
+    height: 227px;
+    margin-top: 69px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
     font-weight: normal;
     font-size: 39px;
     line-height: 46px;  
@@ -213,6 +230,12 @@ body {
 
 .option{
     margin-bottom: 18px;
+}
+
+.option img{
+    width: 330px;
+    height: 175px;
+    object-fit: cover;
 }
 
 .quizz-title{
