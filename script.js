@@ -82,18 +82,41 @@ function createQuizz() {
 }
 
 function continueToQuestions() {
-    console.dir(titleInput.value);
-    console.dir(urlInput.value);
-    console.dir(questionsQuantity.value);
-    console.dir(levelsQuantity.value);
+    console.log(titleInput.value);
+    console.log(urlInput.value);
+    console.log(questionsQuantity.value);
+    console.log(levelsQuantity.value);
 
     let validTitle = false;
     let validUrl = false;
+    let validQuestionNumber = false;
+    let validLevelNumber = false;
 
-    // se as condicoes forem aceitas, prossigo com essas duas linhas de comando:
-    // beginning.classList.add('hidden');
-    // questions.classList.remove('hidden');
+    if (titleInput.value.length >= 20 && titleInput.value.length <= 65) {
+        validTitle = true;
+    } else {
+        // Título errado
+    }
 
+    if (questionsQuantity.value % 1 === 0 && questionsQuantity.value >= 3 && parseInt(questionsQuantity.value) !== NaN) {
+        validQuestionNumber = true;
+    } else {
+        // Quantidade de perguntas errada
+    }
+
+    if (levelsQuantity.value % 1 === 0 && levelsQuantity.value >= 2 && parseInt(levelsQuantity.value) !== NaN) {
+        validLevelNumber = true;
+    } else {
+        // Quantidade de níveis errado
+    }
+
+
+    if (validTitle && validQuestionNumber && validLevelNumber) {
+        beginning.classList.add('hidden');
+        questions.classList.remove('hidden');
+    } else {
+        alert("Bobeou amigão");
+    }
 
 
 

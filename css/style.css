@@ -270,6 +270,9 @@ body {
     color: #000000;
 
     margin-bottom: 30px;
+
+    display: flex;
+    justify-content: center;
 }
 
 .layout-3 .inputs-div {
@@ -282,7 +285,7 @@ body {
 
     gap: 9px;
 
-    padding: 24px 0;
+    padding-top: 24px;
 
     background-color: #FFFFFF;
 
@@ -332,6 +335,42 @@ body {
 
     color: #FFF5F4;
 }
+
+.layout-3 .questions div {
+    margin-bottom: 24px;
+}
+
+.layout-3 .sub-sub-title {
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 23px;
+
+    color: #000000;
+}
+
+.layout-3 .margin-top-14 {
+    margin-top: 14px;
+}
+
+.layout-3 .margin-bottom {
+    margin-bottom: 30px;
+}
+
+.layout-3 .minimize {
+    width: 564px;
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.layout-3 .minimize ion-icon {
+    font-size: 23px;
+}
+
+
+
+
 
 .hidden {
     display: none;
