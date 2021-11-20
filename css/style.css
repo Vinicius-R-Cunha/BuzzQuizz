@@ -225,10 +225,11 @@ body {
 
 .option{
     margin-bottom: 18px;
+    width: 330px;
 }
 
 .option img{
-    width: 330px;
+    width: 100%;
     height: 175px;
     object-fit: cover;
 }
@@ -252,6 +253,19 @@ body {
     color: #FFFFFF;
 }
 
+.unselected{
+    opacity: 60%;
+    pointer-events: none;
+}
+
+.unselected p{
+    color: #FF4B4B;
+}
+
+.selected-answer{
+    pointer-events: none;
+}
+
 .option p{
     font-weight: bold;
     font-size: 20px;
@@ -259,6 +273,10 @@ body {
 
     color: #000000;
     margin-top: 8px;
+}
+
+.selected-answer p{
+    color: #009C22;
 }
 
 .layout-3 {
@@ -458,6 +476,53 @@ body {
         width: 100%;
 
         justify-content: center;
+    }
+
+    .banner-title, .banner img, .banner{
+        height: 142px;
+    }
+
+    .banner-title h1{
+        font-size: 19px;
+    }
+
+    .box-quizz{
+        width: 100%;
+        padding: 16px 16px;
+        margin-top: 22px;
+    }
+    
+    .option{
+        width: auto;
+        width: 48%;
+    }
+
+    .banner-title, .banner img, .banner{
+        height: 142px;
+    }
+
+    .option p{
+        font-size: 13px;
+        line-height: 15px;
+    }
+
+    .banner-title h1{
+        font-size: 19px;
+        line-height: 22px;
+        text-align: center;
+        padding: 0 8px;
+    }
+
+    .quizz-title h1{
+        line-height: 22px;
+        text-align: center;
+        font-size: 19px;
+        padding: 0 5px;
+    }
+
+    .option img{
+        height:80%;
+        object-fit: cover;
     }
 
     .layout-3 .beginning {
