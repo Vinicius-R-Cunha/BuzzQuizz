@@ -16,7 +16,7 @@
     <header class="header">
         <h1 onclick="reloadPage()">BuzzQuizz</h1>
     </header>
-    <div class="layout-1">        
+    <div class="layout-1 hidden">        
         <div class="your-quizzes">
             <p>Você não criou nenhum</p>
             <p>quizz ainda :(</p>
@@ -63,25 +63,25 @@
   
     </div>
     
-    <div class="layout-3 hidden">
+    <div class="layout-3">
         <div class="beginning">
             <p class="sub-title">Comece pelo começo</p>
             <div class="inputs-div">
-                <input class="input-title" placeholder="Título do seu quizz" type="text">
-                <input class="input-url" placeholder="URL da imagem do seu quizz" type="text">
-                <input class="input-questions-quantity" placeholder="Quantidade de perguntas do quizz" type="text">
-                <input class="input-levels-quantity" placeholder="Quantidade de níveis do quizz" type="text">
+                <input class="input-title" placeholder="Título do seu quizz" type="text" value="asdasdasdasdasdasdasdasdasdasdasdasd">
+                <input class="input-url" placeholder="URL da imagem do seu quizz" type="text" value="dasdas">
+                <input class="input-questions-quantity" placeholder="Quantidade de perguntas do quizz" type="text" value="3">
+                <input class="input-levels-quantity" placeholder="Quantidade de níveis do quizz" type="text" value="3">
             </div>
-            <div class="continue-to-questions" onclick="continueToQuestions()">
+            <div class="continue-button continue-to-questions" onclick="continueToQuestions()">
                 <p>Prosseguir para criar perguntas</p>
             </div>
         </div>
 
         <div class="questions hidden">
+
             <p class="sub-title">Crie suas perguntas</p>
 
-
-            <div class="inputs-div question-1">
+            <div class="inputs-div">
 
                 <div class="minimize sub-sub-title hidden" onclick="maximizeQuestion(this)">
                     <p>Pergunta 1</p>
@@ -91,34 +91,57 @@
                 
                 <div class="open">
                     <div class="question sub-sub-title"><p>Pergunta 1</p>
-                        <input class="question-title" placeholder="Texto da pergunta" type="text">
-                        <input class="color" placeholder="Cor de fundo da pergunta" type="text">
+                        <input class="question-title" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
+                        <input class="color" placeholder="Cor de fundo da pergunta" type="text" value="#FFAFAF">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" placeholder="Resposta correta" type="text">
-                        <input class="url" placeholder="URL da imagem" type="text">
+                        <input class="answer" placeholder="Resposta correta" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem" type="text" value="url valida a gente ve por aqui">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" placeholder="Resposta incorreta 1" type="text">
-                        <input class="url" placeholder="URL da imagem 1" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 1" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 1" type="text" value="url valida a gente ve por aqui">
 
-                        <input class="answer" placeholder="Resposta incorreta 2" type="text">
-                        <input class="url" placeholder="URL da imagem 2" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 2" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 2" type="text" value="url valida a gente ve por aqui">
 
-                        <input class="answer" placeholder="Resposta incorreta 3" type="text">
-                        <input class="url" placeholder="URL da imagem 3" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 3" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 3" type="text" value="url valida a gente ve por aqui">
                     </div>
                 </div>
+            </div>
+        </div>
 
 
+        <div class="levels hidden">
+
+            <p class="sub-title">Agora, decida os níveis</p>
+            
+            <div class="inputs-div">
+
+                <div class="minimize sub-sub-title hidden" onclick="maximizeLevel(this)">
+                    <p>Nível 1</p>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                
+                <div class="open">
+                    <div class="level-info sub-sub-title"><p>Nível 1</p>
+                        <input class="level-title" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
+                        <input class="percentage" placeholder="% de acerto mínima" type="text" value="0">
+                        <input class="level-url" placeholder="URL da imagem do nível" type="text">
+                        <input class="level-description" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" >
+                    </div>
+                </div>
 
             </div>
         </div>
 
-        <div class="levels hidden">
-            <p class="sub-title">Agora, decida os níveis</p>
+
+        <div class="ending hidden">
+
+            <p class="sub-title">Seu quizz está pronto!</p>
 
         </div>
 

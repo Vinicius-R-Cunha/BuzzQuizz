@@ -7,6 +7,7 @@ const layout3 = document.querySelector('.layout-3');
 const beginning = document.querySelector('.beginning');
 const questions = document.querySelector('.questions');
 const levels = document.querySelector('.levels');
+const ending = document.querySelector('.ending');
 
 const titleInput = document.querySelector('.input-title');
 const urlInput = document.querySelector('.input-url');
@@ -154,13 +155,15 @@ function continueToQuestions() {
         // Título errado
     }
 
-    if (questionsQuantity.value % 1 === 0 && questionsQuantity.value >= 3 && parseInt(questionsQuantity.value) !== NaN) {
+    // verificacao de URL
+
+    if (questionsQuantity.value % 1 === 0 && questionsQuantity.value >= 3 && isNaN(parseInt(questionsQuantity.value)) === false) {
         validQuestionNumber = true;
     } else {
         // Quantidade de perguntas errada
     }
 
-    if (levelsQuantity.value % 1 === 0 && levelsQuantity.value >= 2 && parseInt(levelsQuantity.value) !== NaN) {
+    if (levelsQuantity.value % 1 === 0 && levelsQuantity.value >= 2 && isNaN(parseInt(levelsQuantity.value)) === false) {
         validLevelNumber = true;
     } else {
         // Quantidade de níveis errado
@@ -182,7 +185,7 @@ function showQuestions(num) {
 
     for (let i = 2; i < (num+1); i++) {
         questions.innerHTML += `
-            <div class="inputs-div question-${i}">
+            <div class="inputs-div">
 
                 <div class="minimize sub-sub-title" onclick="maximizeQuestion(this)">
                     <p>Pergunta ${i}</p>
@@ -192,24 +195,24 @@ function showQuestions(num) {
 
                 <div class="closed hidden">
                     <div class="question sub-sub-title"><p>Pergunta ${i}</p>
-                        <input class="question-title" placeholder="Texto da pergunta" type="text">
-                        <input class="color" placeholder="Cor de fundo da pergunta" type="text">
+                        <input class="question-title" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
+                        <input class="color" placeholder="Cor de fundo da pergunta" type="text" value="#FFAFAF">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" placeholder="Resposta correta" type="text">
-                        <input class="url" placeholder="URL da imagem" type="text">
+                        <input class="answer" placeholder="Resposta correta" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem" type="text" value="url valida a gente ve por aqui">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" placeholder="Resposta incorreta 1" type="text">
-                        <input class="url" placeholder="URL da imagem 1" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 1" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 1" type="text" value="url valida a gente ve por aqui">
 
-                        <input class="answer" placeholder="Resposta incorreta 2" type="text">
-                        <input class="url" placeholder="URL da imagem 2" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 2" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 2" type="text" value="url valida a gente ve por aqui">
 
-                        <input class="answer" placeholder="Resposta incorreta 3" type="text">
-                        <input class="url" placeholder="URL da imagem 3" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 3" type="text" value="repostinha">
+                        <input class="url" placeholder="URL da imagem 3" type="text" value="url valida a gente ve por aqui">
                     </div>
                 </div>
 
@@ -218,7 +221,7 @@ function showQuestions(num) {
 
     }
     questions.innerHTML += `
-        <div class="continue-to-levels" onclick="continueToLevels()">
+        <div class="continue-button continue-to-levels" onclick="continueToLevels()">
             <p>Prosseguir para criar níveis</p>
         </div>
     `
@@ -271,37 +274,30 @@ function continueToLevels() {
     for (let i = 0; i < allTitlesSelected.length; i++) {
         questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:answersArray[i]});
     }
-
-    console.log(answersArray);
-    console.log(questionsArray);
-
     
-    // só continua se as perguntas estiver OK (filterData retorna True)
-    // if (filterData()) { 
-    //     questions.classList.add('hidden');
-    //     levels.classList.remove('hidden');
-    // }
-
-    filterData();
-    // questions.classList.add('hidden');
-    // levels.classList.remove('hidden');
+    // só continua se as perguntas estiver OK (filterQuestions retorna True)
+    if (filterQuestions()) { 
+        questions.classList.add('hidden');
+        levels.classList.remove('hidden');
+        showLevels(parseInt(levelsQuantity.value));
+    }
 }
 
-function filterData() {
+function filterQuestions() {
     
     // texto da pergunta != vazio e mais de 20 characteres
     for (let i = 0; i < questionsArray.length; i++) {
-        if (questionsArray[i].title.length <= 20 || questionsArray[i].title === '') {
-            // alert(`Texto da Pergunta ${i+1} errado`);
-            // return false;
+        if (questionsArray[i].title.length < 20 || questionsArray[i].title === '') {
+            alert(`Texto da Pergunta ${i+1} errado`);
+            return false;
         }
     }
 
     // cor de fundo != vazio #...
     for (let i = 0; i < questionsArray.length; i++) {
         if (isHexadecimal(questionsArray[i].color) === false) {
-            // alert(`Color da Pergunda ${i+1} errada`);
-            // return false;
+            alert(`Color da Pergunda ${i+1} errada`);
+            return false;
         }
     }
 
@@ -309,7 +305,11 @@ function filterData() {
     for (let i = 0; i < answersArray.length; i++) {
         for (let j = 0; j < 2; j++) {
             if (answersArray[i][j].text === '' || answersArray[i][j].image === '') {
-                alert(`Preencha as respostas`);
+                if (j === 0) {
+                    alert(`Preencha a resposta certa`);
+                } else {
+                    alert(`Preencha pelo menos a primeira resposta errada`)
+                }
                 return false;
             }
         }
@@ -317,12 +317,9 @@ function filterData() {
 
     // verificacao de URL
 
-
+    
     return true;
-
 }
-
-
 
 function isHexadecimal(string) {
 
@@ -352,3 +349,125 @@ function isHexadecimal(string) {
     }
     return true
 }
+
+function showLevels(num) {
+    for (let i = 2; i < (num+1); i++) {
+        levels.innerHTML += `
+            <div class="inputs-div">
+
+                <div class="minimize sub-sub-title" onclick="maximizeLevel(this)">
+                    <p>Nível ${i}</p>
+                    <ion-icon name="create-outline"></ion-icon>
+                </div>
+                
+                <div class="closed hidden">
+                    <div class="level-info sub-sub-title"><p>Nível ${i}</p>
+                        <input class="level-title" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
+                        <input class="percentage" placeholder="% de acerto mínima" type="text" value="0">
+                        <input class="level-url" placeholder="URL da imagem do nível" type="text">
+                        <input class="level-description" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" >
+                    </div>
+                </div>
+
+            </div>
+        `
+    }
+
+    levels.innerHTML += `
+        <div class="continue-button finish-quizz" onclick="finishQuizz()">
+            <p>Finalizar Quizz</p>
+        </div>
+    `
+}
+
+function maximizeLevel(level) {
+
+    // encontro quem está aberto dentro de questions e fecho
+    const openLevel = levels.querySelector('.open');
+    openLevel.classList.add('closed');
+    openLevel.classList.add('hidden');
+    openLevel.classList.remove('open');
+
+    // encontro o irmão minimize que está hidden e tiro o hidden
+    const minimize = openLevel.parentNode.querySelector('.minimize');
+    minimize.classList.remove('hidden');
+
+    // coloco hidden no elemento minimize que foi clicado
+    level.classList.add('hidden');
+
+    // encontro o irmão closed que está hidden, tiro ambas as classes e coloco open
+    const closedDiv = level.parentNode.querySelector('.closed');
+    closedDiv.classList.remove('closed');
+    closedDiv.classList.remove('hidden');
+    closedDiv.classList.add('open');
+}
+
+
+function finishQuizz() {
+
+    if (filterLevels()) {
+        // se tiver tudo OK na aba Levels
+        levels.classList.add('hidden');
+        ending.classList.remove('hidden');
+    }
+}
+
+function filterLevels() {
+        
+    const levelTitlesSelected = document.querySelectorAll('.levels .level-title');
+    const levelPercentages = document.querySelectorAll('.levels .percentage');
+    const levelUrlSelected = document.querySelectorAll('.levels .level-url');
+    const levelDescriptionSelected = document.querySelectorAll('.levels .level-description');
+
+    // titulo do nivel min 10 caracteres 
+    for (let i = 0; i < levelTitlesSelected.length; i++) {
+        if (levelTitlesSelected[i].value.length < 10) {
+            alert(`Título ${i+1} muito curto`);
+            return false;
+        }
+    }
+
+    // % entre 0 e 100
+    for (let i = 0; i < levelPercentages.length; i++) {
+        if (levelPercentages[i].value % 1 !== 0 || levelPercentages[i].value < 0 || levelPercentages[i].value > 100 || isNaN(parseInt(levelPercentages[i].value)) ) {
+            alert(`Porcentagem ${i+1} no formato errado`);
+            return false;
+        }
+    }
+
+    // verificacao de URL
+
+
+    // descricao do nivel min 30 caracteres
+    for (let i = 0; i < levelDescriptionSelected.length; i++) {
+        if (levelDescriptionSelected[i].value.length < 30) {
+            alert(`Descrição ${i+1} muito curta`);
+            return false;
+        }
+
+    }
+
+    // pelo menos uma porcentagem de acerto seja 0
+    let isZero = false;
+    for (let i = 0; i < levelPercentages.length; i++) {
+        if (parseInt(levelPercentages[i].value) === 0) {
+            isZero = true;
+        }
+    }
+
+    if (!isZero) {
+        alert("Pelo menos uma porcentagem tem que ser 0");
+        return false;
+    }
+
+    return true;
+}
+
+
+
+
+
+
+
+
+

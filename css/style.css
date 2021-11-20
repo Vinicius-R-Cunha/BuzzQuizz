@@ -4,6 +4,8 @@ body {
     font-family: 'Roboto', sans-serif;
 
     background-color: #FAFAFA;
+
+    padding-bottom: 30px;
 }
 
 .header {
@@ -317,7 +319,7 @@ body {
     justify-content: center;
     align-items: center;
 
-    gap: 9px;
+    gap: 14px;
 
     padding-top: 24px;
 
@@ -326,7 +328,7 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 }
 
-.layout-3 .beginning .inputs-div {
+.layout-3 .beginning .inputs-div, .layout-3 .levels .inputs-div{
     padding: 24px 0;
 }
 
@@ -351,7 +353,7 @@ body {
     color: #BABABA;
 }
 
-.layout-3 .continue-to-questions {
+.layout-3 .continue-button {
     width: 370px;
     height: 54px;
 
@@ -367,7 +369,7 @@ body {
     cursor: pointer;
 }
 
-.layout-3 .continue-to-questions p {
+.layout-3 .continue-button p {
     font-weight: 400;
     font-size: 21px;
 
@@ -415,26 +417,7 @@ body {
 }
 
 .layout-3 .continue-to-levels {
-    width: 370px;
-    height: 54px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
     margin-top: 40px;
-
-    background-color: #EC362D;
-    border-radius: 15px;
-
-    cursor: pointer;
-}
-
-.layout-3 .continue-to-levels p {
-    font-weight: 400;
-    font-size: 21px;
-
-    color: #FFF5F4;
 }
 
 .layout-3 .levels {
@@ -443,8 +426,17 @@ body {
     align-items: center;
 }
 
+.layout-3 .levels input {
+    margin-top: 14px;
+}
 
+.layout-3 .levels .inputs-div {
+    margin: 12px;
+}
 
+.layout-3 .finish-quizz {
+    margin-top: 70px;
+}
 
 .hidden {
     display: none;
@@ -540,66 +532,72 @@ body {
         margin: 0 auto;
     }
 
-    .layout-3 .continue-to-questions {
-        width: 85%;
-    }
-
-    .layout-3 .continue-to-questions p {
-        font-size: 18px;
-    }
-
+    
     .layout-3 .questions {
         width: 100%;
     }
-
+    
     .layout-3 .questions p {
         width: 90%;
-
+        
         margin: 5px 0 10px 0;
     }
-
+    
+    
     .layout-3 .question {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
+    
     .layout-3 .correct-answer {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
+    
     .layout-3 .incorrect-answers {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
-
+    
     .layout-3 .open {
         width: 100%;
     }
-
+    
     .layout-3 .closed {
         width: 100%;
     }
-
-    .layout-3 .continue-to-levels {
-        width: 85%;
-    }
-
-    .layout-3 .continue-to-levels p {
-        font-size: 18px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
+    
     .layout-3 .minimize {
         width: 90%;
         
         margin: 0 10px;
+    }
+    
+    .layout-3 .levels {
+        width: 100%;
+    }
+    
+    .layout-3 .levels p {
+        width: 90%;
+    }
+    
+    .layout-3 .continue-button {
+        width: 85%;
+    }
+
+    .layout-3 .continue-button p {
+        width: auto;
+        
+        font-size: 18px;
+    }
+
+    .layout-3 .level-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 
