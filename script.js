@@ -20,7 +20,6 @@ function getQuizzes() {
 }
 
 function showQuizzes(quizzes) {
-    // console.log(quizzes.data);
     const allQuizzes = document.querySelector('.all-quizzes');
     
     allQuizzes.innerHTML = '';
@@ -109,7 +108,6 @@ function showSelectedQuizz(selectedQuizz) {
     </div>
     `
     }
-    console.log(selectedQuizz);
 }
 
 
@@ -125,7 +123,7 @@ function continueToQuestions() {
     let validQuestionNumber = false;
     let validLevelNumber = false;
 
-    if (titleInput.value.length >= 20 && titleInput.value.length <= 65) {
+    if (titleInput.value.length >= 20 && titleInput.value.length <= 65 && titleInput.value !== '') {
         validTitle = true;
     } else {
         // Título errado
@@ -147,17 +145,15 @@ function continueToQuestions() {
     if (validTitle && validQuestionNumber && validLevelNumber) {
         beginning.classList.add('hidden');
         questions.classList.remove('hidden');
+        // printa a quantidade de perguntas que precisa a partir da 2;
+        showQuestions(parseInt(questionsQuantity.value));
     } else {
         alert("Bobeou amigão");
     }
 
-    // printa a quantidade de perguntas que precisa a partir da 2;
-    showQuestions(parseInt(questionsQuantity.value));
 }
 
 function showQuestions(num) {
-
-
 
     for (let i = 2; i < (num+1); i++) {
         questions.innerHTML += `
@@ -171,31 +167,29 @@ function showQuestions(num) {
 
                 <div class="closed hidden">
                     <div class="question sub-sub-title"><p>Pergunta ${i}</p>
-                        <input class="input-question margin-top-14" placeholder="Texto da pergunta" type="text">
-                        <input class="color-input margin-top-14" placeholder="Cor de fundo da pergunta" type="text">
+                        <input class="question-title" placeholder="Texto da pergunta" type="text">
+                        <input class="color" placeholder="Cor de fundo da pergunta" type="text">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="input-question margin-top-14" placeholder="Resposta correta" type="text">
-                        <input class="color-input margin-top-14" placeholder="URL da imagem" type="text">
+                        <input class="answer" placeholder="Resposta correta" type="text">
+                        <input class="url" placeholder="URL da imagem" type="text">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 1" type="text">
-                        <input class="color-input margin-top-14 margin-bottom" placeholder="URL da imagem 1" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 1" type="text">
+                        <input class="url" placeholder="URL da imagem 1" type="text">
 
-                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 2" type="text">
-                        <input class="color-input margin-top-14 margin-bottom" placeholder="URL da imagem 2" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 2" type="text">
+                        <input class="url" placeholder="URL da imagem 2" type="text">
 
-                        <input class="input-question margin-top-14" placeholder="Resposta incorreta 3" type="text">
-                        <input class="color-input margin-top-14" placeholder="URL da imagem 3" type="text">
+                        <input class="answer" placeholder="Resposta incorreta 3" type="text">
+                        <input class="url" placeholder="URL da imagem 3" type="text">
                     </div>
                 </div>
 
             </div>
         `
-
-
 
     }
     questions.innerHTML += `
@@ -206,6 +200,7 @@ function showQuestions(num) {
 }
 
 function maximizeQuestion(question) {
+
     // encontro quem está aberto dentro de questions e fecho
     const openQuestion = questions.querySelector('.open');
     openQuestion.classList.add('closed');
@@ -227,17 +222,108 @@ function maximizeQuestion(question) {
 }
 
 
+let answersArray = [];
+let questionsArray = [];
+
 function continueToLevels() {
 
+    const allTitlesSelected = document.querySelectorAll('.questions .question-title');
+    const allColorsSelected = document.querySelectorAll('.questions .color');
+    const allAnswersSelected = document.querySelectorAll('.questions .answer');
+    const allUrlSelected = document.querySelectorAll('.questions .url');
+    
+    answersArray = [];
+    questionsArray = [];
+    // organiza a lista de answers em blocos de 4
+    for (let i = 0; i < allTitlesSelected.length; i++) {
+        answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
+                        {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
+                        {text:allAnswersSelected[4*i+2].value, image:allUrlSelected[4*i+2].value, isCorrectAnswer: false},
+                        {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
+    }
+
+    // monta a lista de questions que será enviada pelo post
+    for (let i = 0; i < allTitlesSelected.length; i++) {
+        questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:answersArray[i]});
+    }
+
+    console.log(answersArray);
+    console.log(questionsArray);
+
+    
+    // só continua se as perguntas estiver OK (filterData retorna True)
+    // if (filterData()) { 
+    //     questions.classList.add('hidden');
+    //     levels.classList.remove('hidden');
+    // }
+
+    filterData();
+    // questions.classList.add('hidden');
+    // levels.classList.remove('hidden');
+}
+
+function filterData() {
+    
+    // texto da pergunta != vazio e mais de 20 characteres
+    for (let i = 0; i < questionsArray.length; i++) {
+        if (questionsArray[i].title.length <= 20 || questionsArray[i].title === '') {
+            // alert(`Texto da Pergunta ${i+1} errado`);
+            // return false;
+        }
+    }
+
+    // cor de fundo != vazio #...
+    for (let i = 0; i < questionsArray.length; i++) {
+        if (isHexadecimal(questionsArray[i].color) === false) {
+            // alert(`Color da Pergunda ${i+1} errada`);
+            // return false;
+        }
+    }
+
+    // as duas primeiras respostas não podem estar vazias, entao acesso todos os arrays i j
+    for (let i = 0; i < answersArray.length; i++) {
+        for (let j = 0; j < 2; j++) {
+            if (answersArray[i][j].text === '' || answersArray[i][j].image === '') {
+                alert(`Preencha as respostas`);
+                return false;
+            }
+        }
+    }
+
+    // verificacao de URL
 
 
+    return true;
 
-
-    // só continua se as perguntas estiver OK
-    questions.classList.add('hidden');
-    levels.classList.remove('hidden');
 }
 
 
 
+function isHexadecimal(string) {
 
+    string = string.toLowerCase();
+
+    // recebe uma string e verifica se o primeiro caracter é # e se cada letra está entre A e F
+    const aToF = ['a','b','c','d','e','f','0','1','2','3','4','5','6','7','8','9'];
+
+    if (string.length !== 7) {
+        return false
+    }
+
+    if (string[0] !== '#') {
+        return false;
+    }
+
+    for (let i = 1; i < string.length ; i++) {
+        let isDifferent = true;
+        for (let j = 0; j < aToF.length; j++) {
+            if (string[i] === aToF[j]) {
+                isDifferent = false;
+            }
+        }
+        if (isDifferent) {
+            return false;
+        }
+    }
+    return true
+}
