@@ -63,45 +63,70 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
+    let cont = 0;
+function selectAnswersQuizz(selectedAnswer){
+    cont ++;
+    const selectedBox = selectedAnswer.parentNode.parentNode;
+    selectedAnswer.classList.add("selected-answer");
+
+    let unselected = selectedBox.querySelectorAll(".option");
+
+    for(let i = 0 ; i < 4 ; i++){
+        unselected[i].classList.add("unselected");
+    }
+
+    selectedAnswer.classList.remove("unselected");
+
+    setInterval(scrollPage, 2000);
+}
+
+    function scrollPage(){
+        let question = document.querySelectorAll('.box-quizz');
+        question[cont].scrollIntoView();
+    }
+
+let howManyQuizz;
+
 function showSelectedQuizz(selectedQuizz) {
-    const quizzPromesse = selectedQuizz.data;
+    const quizzPromise = selectedQuizz.data;
+    howManyQuizz = quizzPromise.questions.length;
     layout2.innerHTML =`
     <div class="banner">
-        <img src="${quizzPromesse.image}" alt="">
+        <img src="${quizzPromise.image}" alt="">
     </div>
     <div class="banner-title">
-        <h1>${quizzPromesse.title}</h1>
+        <h1>${quizzPromise.title}</h1>
     </div>
     `
     const list = [0,1,2,3];
     list.sort(comparador);
 
-    for(let i = 0 ; i < 3 ; i++){
+    for(let i = 0 ; i < howManyQuizz ; i++){
     layout2.innerHTML +=`
-    <div class="box-quizz">
+    <div class="box-quizz question${i+1}">
         <div class="quizz-title">
-            <h1>${quizzPromesse.questions[i].title}</h1>
+            <h1>${quizzPromise.questions[i].title}</h1>
         </div>
         <div class="options-quizz">
             
-            <div class="option">
-                <img src="${quizzPromesse.questions[i].answers[list[0]].image}"> 
-                <p>${quizzPromesse.questions[i].answers[list[0]].text}</p>       
+            <div class="option"  onclick="selectAnswersQuizz(this)">
+                <img src="${quizzPromise.questions[i].answers[list[0]].image}"> 
+                <p>${quizzPromise.questions[i].answers[list[0]].text}</p>       
+            </div>
+            
+            <div class="option" onclick="selectAnswersQuizz(this)">
+                <img src="${quizzPromise.questions[i].answers[list[1]].image}">  
+                <p>${quizzPromise.questions[i].answers[list[1]].text}</p>
             </div>
 
-            <div class="option">
-                <img src="${quizzPromesse.questions[i].answers[list[1]].image}">  
-                <p>${quizzPromesse.questions[i].answers[list[1]].text}</p>
+            <div class="option" onclick="selectAnswersQuizz(this)">
+                <img src="${quizzPromise.questions[i].answers[list[2]].image}">
+                <p>${quizzPromise.questions[i].answers[list[2]].text}</p>
             </div>
 
-            <div class="option">
-                <img src="${quizzPromesse.questions[i].answers[list[2]].image}">
-                <p>${quizzPromesse.questions[i].answers[list[2]].text}</p>
-            </div>
-
-            <div class="option">
-                <img src="${quizzPromesse.questions[i].answers[list[3]].image}">
-                <p>${quizzPromesse.questions[i].answers[list[3]].text}</p>
+            <div class="option" onclick="selectAnswersQuizz(this)">
+                <img src="${quizzPromise.questions[i].answers[list[3]].image}">
+                <p>${quizzPromise.questions[i].answers[list[3]].text}</p>
             </div>
 
         </div>
