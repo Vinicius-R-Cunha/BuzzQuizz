@@ -32,9 +32,9 @@ function showQuizzes(quizzes) {
         
         allQuizzes.innerHTML += `
         <div class="quizz" id="${id}" onclick="openQuizz(this)">
-        <img class="quizz-img" src=${image}>
-        <p class="quizz-name">${title}</p>
-        <div class="gradient"></div>
+            <img class="quizz-img" src=${image}>
+            <p class="quizz-name">${title}</p>
+            <div class="gradient"></div>
         </div>
         `
     }
@@ -46,15 +46,8 @@ function reloadPage() {
 }
 
 function openQuizz(quizz) {
-    // vai para o Layout 2 do quizz clicado
-
     // id do quizz que foi clicado
     const idQuizz = quizz.id;
-
-    // esconde o layout-1
-    layout1.classList.add('hidden');
-    // tira o escondido do layout-2
-    layout2.classList.remove('hidden');
 
     const SelectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
     SelectedQuizz.then(showSelectedQuizz);
@@ -64,7 +57,8 @@ function comparador() {
 	return Math.random() - 0.5; 
 }
 
-    let cont = 0;
+let cont = 0;
+
 function selectAnswersQuizz(selectedAnswer){
     cont ++;
     const selectedBox = selectedAnswer.parentNode.parentNode;
@@ -89,6 +83,12 @@ function selectAnswersQuizz(selectedAnswer){
 let howManyQuizz;
 
 function showSelectedQuizz(selectedQuizz) {
+    // vai para o Layout 2 do quizz clicado
+    // esconde o layout-1
+    layout1.classList.add('hidden');
+    // tira o escondido do layout-2
+    layout2.classList.remove('hidden');
+
     const quizzPromise = selectedQuizz.data;
     howManyQuizz = quizzPromise.questions.length;
     layout2.innerHTML =`
@@ -196,23 +196,23 @@ function showQuestions(num) {
                 <div class="closed hidden">
                     <div class="question sub-sub-title"><p>Pergunta ${i}</p>
                         <input class="question-title" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
-                        <input class="color" placeholder="Cor de fundo da pergunta" type="text" value="#FFAFAF">
+                        <input class="color" placeholder="Cor de fundo da pergunta" type="text" value="#123456">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" placeholder="Resposta correta" type="text" value="repostinha">
-                        <input class="url" placeholder="URL da imagem" type="text" value="url valida a gente ve por aqui">
+                        <input class="answer" placeholder="Resposta correta" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" placeholder="URL da imagem" type="text" value="https://http.cat/411.jpg">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" placeholder="Resposta incorreta 1" type="text" value="repostinha">
-                        <input class="url" placeholder="URL da imagem 1" type="text" value="url valida a gente ve por aqui">
+                        <input class="answer" placeholder="Resposta incorreta 1" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" placeholder="URL da imagem 1" type="text" value="https://http.cat/411.jpg">
 
-                        <input class="answer" placeholder="Resposta incorreta 2" type="text" value="repostinha">
-                        <input class="url" placeholder="URL da imagem 2" type="text" value="url valida a gente ve por aqui">
+                        <input class="answer" placeholder="Resposta incorreta 2" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" placeholder="URL da imagem 2" type="text" value="https://http.cat/411.jpg">
 
-                        <input class="answer" placeholder="Resposta incorreta 3" type="text" value="repostinha">
-                        <input class="url" placeholder="URL da imagem 3" type="text" value="url valida a gente ve por aqui">
+                        <input class="answer" placeholder="Resposta incorreta 3" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" placeholder="URL da imagem 3" type="text" value="https://http.cat/411.jpg">
                     </div>
                 </div>
 
@@ -252,31 +252,39 @@ function maximizeQuestion(question) {
 
 let answersArray = [];
 let questionsArray = [];
+let levelsArray = [];
 
 function continueToLevels() {
-
-    const allTitlesSelected = document.querySelectorAll('.questions .question-title');
-    const allColorsSelected = document.querySelectorAll('.questions .color');
-    const allAnswersSelected = document.querySelectorAll('.questions .answer');
-    const allUrlSelected = document.querySelectorAll('.questions .url');
-    
-    answersArray = [];
-    questionsArray = [];
-    // organiza a lista de answers em blocos de 4
-    for (let i = 0; i < allTitlesSelected.length; i++) {
-        answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
-                        {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
-                        {text:allAnswersSelected[4*i+2].value, image:allUrlSelected[4*i+2].value, isCorrectAnswer: false},
-                        {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
-    }
-
-    // monta a lista de questions que será enviada pelo post
-    for (let i = 0; i < allTitlesSelected.length; i++) {
-        questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:answersArray[i]});
-    }
-    
     // só continua se as perguntas estiver OK (filterQuestions retorna True)
     if (filterQuestions()) { 
+        const allTitlesSelected = document.querySelectorAll('.questions .question-title');
+        const allColorsSelected = document.querySelectorAll('.questions .color');
+        const allAnswersSelected = document.querySelectorAll('.questions .answer');
+        const allUrlSelected = document.querySelectorAll('.questions .url');
+        
+        answersArray = [];
+        questionsArray = [];
+        // organiza a lista de answers em blocos de 4
+        for (let i = 0; i < allTitlesSelected.length; i++) {
+            answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
+                            {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
+                            {text:allAnswersSelected[4*i+2].value, image:allUrlSelected[4*i+2].value, isCorrectAnswer: false},
+                            {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
+        }
+
+        // monta a lista de questions que será enviada pelo post
+        // removo as answers que nao tem texto ou imagem antes de colocar no questions
+        for (let i = 0; i < allTitlesSelected.length; i++) {
+            let arrayIJ = [];
+            for (let j = 0; j < answersArray[i].length; j++) {
+                if (answersArray[i][j].text !== '' && answersArray[i][j].image !== '') {
+                    arrayIJ.push(answersArray[i][j]);
+                }
+            }
+            
+            questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:arrayIJ});
+        }
+    
         questions.classList.add('hidden');
         levels.classList.remove('hidden');
         showLevels(parseInt(levelsQuantity.value));
@@ -364,8 +372,8 @@ function showLevels(num) {
                     <div class="level-info sub-sub-title"><p>Nível ${i}</p>
                         <input class="level-title" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
                         <input class="percentage" placeholder="% de acerto mínima" type="text" value="0">
-                        <input class="level-url" placeholder="URL da imagem do nível" type="text">
-                        <input class="level-description" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" >
+                        <input class="level-url" placeholder="URL da imagem do nível" type="text" value="https://http.cat/412.jpg">
+                        <input class="level-description" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
                     </div>
                 </div>
 
@@ -404,12 +412,51 @@ function maximizeLevel(level) {
 
 
 function finishQuizz() {
-
+    // se tiver tudo OK na aba Levels
     if (filterLevels()) {
-        // se tiver tudo OK na aba Levels
-        levels.classList.add('hidden');
-        ending.classList.remove('hidden');
+        
+        levelsArray = [];
+        const allLevelsTitles = document.querySelectorAll('.levels .level-title');
+        const allLevelsPercentages = document.querySelectorAll('.levels .percentage');
+        const allLevelsUrl = document.querySelectorAll('.levels .level-url');
+        const allLevelsDescriptions = document.querySelectorAll('.levels .level-description');
+
+        for (let i = 0; i < allLevelsTitles.length; i++) {
+            levelsArray.push({title:allLevelsTitles[i].value,image:allLevelsUrl[i].value,text:allLevelsDescriptions[i].value,minValue:parseInt(allLevelsPercentages[i].value)})
+        }
+
+        const completedQuizz = {title:titleInput.value,image:urlInput.value,questions:questionsArray, levels:levelsArray}
+
+        // const sendToServer = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completedQuizz);
+        // sendToServer.then(goToFinalCreationPage);
+
+        goToFinalCreationPage();
     }
+}
+
+function goToFinalCreationPage(createdQuizz) {
+
+    // id do quizz que acabou de ser criado
+    // createdQuizz.data.id
+    // imagem do quizz que acabou de ser criado
+    // createdQuizz.data.image
+    // title do quizz que acabou de ser criado
+    // createdQuizz.data.title
+
+    
+
+
+    
+    levels.classList.add('hidden');
+    ending.classList.remove('hidden');
+    
+}
+
+function accessQuizz() {
+
+    // const teste = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${createdQuizz.data.id}`);
+    // teste.then(showSelectedQuizz);
+    
 }
 
 function filterLevels() {
