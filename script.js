@@ -430,7 +430,7 @@ function finishQuizz() {
         // const sendToServer = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completedQuizz);
         // sendToServer.then(goToFinalCreationPage);
 
-        goToFinalCreationPage();
+        goToFinalCreationPage(undefined);
     }
 }
 
@@ -442,17 +442,30 @@ function goToFinalCreationPage(createdQuizz) {
     // createdQuizz.data.image
     // title do quizz que acabou de ser criado
     // createdQuizz.data.title
+    if (createdQuizz !== undefined) {
+        ending.innerHTML = `
+                <p class="sub-title">Seu quizz está pronto!</p>
 
-    
+                <div class="created-quizz" onclick="accessCreatedQuizz()">
+                    <img class="quizz-img" src=${createdQuizz.data.image}>
+                    <p class="quizz-name">${createdQuizz.data.title}</p>
+                    <div class="gradient"></div>
+                </div>
 
+                <div class="continue-button access-quizz-button" onclick="accessCreatedQuizz()">
+                    <p>Acessar Quizz</p>
+                </div>
 
+                <p class="back-to-beginning" onclick="reloadPage()">Voltar pra home</p>
+            `;
+    }
     
     levels.classList.add('hidden');
     ending.classList.remove('hidden');
     
 }
 
-function accessQuizz() {
+function accessCreatedQuizz() {
 
     // const teste = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${createdQuizz.data.id}`);
     // teste.then(showSelectedQuizz);
