@@ -47,7 +47,7 @@ function reloadPage() {
 
 function openQuizz(quizz) {
     // id do quizz que foi clicado
-    const idQuizz = quizz.data.id;
+    const idQuizz = quizz.id;
 
     const selectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
     selectedQuizz.then(showSelectedQuizz);
