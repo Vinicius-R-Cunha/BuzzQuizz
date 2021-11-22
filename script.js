@@ -168,6 +168,7 @@ function showSelectedQuizz(selectedQuizz) {
     }
 }
 
+
 function resultQuizz(){
     const x = contTrue/howManyQuizz;
     const percentage = Math.floor(x);

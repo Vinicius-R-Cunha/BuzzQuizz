@@ -694,6 +694,8 @@ body {
 
     .all-quizzes-title {
         width: 100%;
+
+        margin-top: 30px;
     }
 
     .all-quizzes {
@@ -832,6 +834,18 @@ body {
         width: 90%;
     }
     
+    .layout-3 .levels .level-description {
+        height: 177px;
+
+        padding-bottom: 131px;
+        box-sizing: border-box;
+    }
+
+    .layout-3 .levels .level-description::placeholder {
+        position: fixed;
+        top: 13px;
+    }
+
     .layout-3 .continue-button {
         width: 85%;
     }
