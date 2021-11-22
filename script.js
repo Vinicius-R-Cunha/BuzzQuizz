@@ -102,10 +102,10 @@ function scrollPage(){
     const result = document.querySelector(".result-quizz");
     const question = document.querySelectorAll('.box-quizz');
     if(cont < howManyQuizz){
-        question[cont].scrollIntoView();
+        question[cont].scrollIntoView({behavior:"smooth"});
     }
     else{
-        result.scrollIntoView();
+        result.scrollIntoView({behavior:"smooth"});
     }
 }
 
@@ -118,7 +118,7 @@ function showSelectedQuizz(selectedQuizz) {
     layout1.classList.add('hidden');
     // tira o escondido do layout-2
     layout2.classList.remove('hidden');
-    scrollUp.scrollIntoView();
+    scrollUp.scrollIntoView({behavior:"smooth"});
     abcdefgh = selectedQuizz;
 
     quizzPromise = selectedQuizz.data;
@@ -191,32 +191,14 @@ function resultQuizz(){
         }
     }
 }
-    const scrollUp = document.querySelector(".layout-2");
+const scrollUp = document.querySelector(".layout-2");
 
-    function reloadQuizz(){
-        layout2.innerHTML =" ";
-        showSelectedQuizz(abcdefgh);
-        cont = 0;
-        contTrue = 0;
-    }
-
-
-// function reloadQuizz(reload){
-//     const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
-//     const removeUnselected = document.querySelectorAll(".unselected");
-//     const messageResultQuizz = document.querySelector(".result-quizz");
-//
-//     for(let i = 0; i < howManyQuizz; i++){
-//         removeSelectedAnswer[i].classList.remove("selected-answer");
-//     }
-//     for(let i = 0; i < (howManyQuizz * 3); i++){
-//         removeUnselected[i].classList.remove("unselected");
-//     }
-//     scrollUp.scrollIntoView();
-//     //messageResultQuizz.classList.add("hidden");
-//     cont = 0;
-//     contTrue = 0;
-// }
+function reloadQuizz(){
+    layout2.innerHTML =" ";
+    showSelectedQuizz(abcdefgh);
+    cont = 0;
+    contTrue = 0;
+}
 
 function returnLayout1(){
     reloadQuizz();
