@@ -168,10 +168,11 @@ function showSelectedQuizz(selectedQuizz) {
     }
 }
 
+
 function resultQuizz(){
     const x = contTrue/howManyQuizz;
     const percentage = Math.floor(x);
-    for(let i = levelsQuantity.value; i  > 0 ; i--){
+    for(let i = quizzPromise.levels.length; i  > 0 ; i--){
         if(percentage >= quizzPromise.levels[i-1].minValue){
             layout2.innerHTML +=`
             <div class="box-quizz result-quizz">
