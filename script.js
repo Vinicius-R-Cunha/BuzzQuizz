@@ -437,7 +437,7 @@ function goToFinalCreationPage(createdQuizz) {
        
     //armezeno o createdQuizz no localStorage identificado pelo ID
     const stringFormOfCreatedQuizz = JSON.stringify(createdQuizz.data); 
-    localStorage.setItem(`userQuizz-${createdQuizz.data.id}`,stringFormOfCreatedQuizz);
+    localStorage.setItem(`${createdQuizz.data.id}`,stringFormOfCreatedQuizz);
 
     if (createdQuizz !== undefined) {
         ending.innerHTML = `
