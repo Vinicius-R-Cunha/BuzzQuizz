@@ -189,7 +189,7 @@ function resultQuizz(){
 //     const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
 //     const removeUnselected = document.querySelectorAll(".unselected");
 //     const messageResultQuizz = document.querySelector(".result-quizz");
-
+//
 //     for(let i = 0; i < howManyQuizz; i++){
 //         removeSelectedAnswer[i].classList.remove("selected-answer");
 //     }
