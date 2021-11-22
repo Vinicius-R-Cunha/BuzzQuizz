@@ -488,21 +488,18 @@ function finishQuizz() {
 
         const completedQuizz = {title:titleInput.value,image:urlInput.value,questions:questionsArray, levels:levelsArray}
 
-        // const sendToServer = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completedQuizz);
-        // sendToServer.then(goToFinalCreationPage);
+        const sendToServer = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completedQuizz);
+        sendToServer.then(goToFinalCreationPage);
 
-        goToFinalCreationPage(undefined);
     }
 }
 
 function goToFinalCreationPage(createdQuizz) {
+       
+    //armezeno o createdQuizz no localStorage identificado pelo ID
+    const stringFormOfCreatedQuizz = JSON.stringify(createdQuizz.data); 
+    localStorage.setItem(`userQuizz-${createdQuizz.data.id}`,stringFormOfCreatedQuizz);
 
-    // id do quizz que acabou de ser criado
-    // createdQuizz.data.id
-    // imagem do quizz que acabou de ser criado
-    // createdQuizz.data.image
-    // title do quizz que acabou de ser criado
-    // createdQuizz.data.title
     if (createdQuizz !== undefined) {
         ending.innerHTML = `
                 <p class="sub-title">Seu quizz está pronto!</p>
@@ -523,13 +520,16 @@ function goToFinalCreationPage(createdQuizz) {
     
     levels.classList.add('hidden');
     ending.classList.remove('hidden');
-    
 }
 
 function accessCreatedQuizz() {
 
-    // const teste = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${createdQuizz.data.id}`);
-    // teste.then(showSelectedQuizz);
+    ending.classList.add('hidden')
+
+    const normalFormOfStringify = JSON.parse(localStorage.getItem("userQuizz"));
+    console.log(normalFormOfStringify);
+    const teste = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${normalFormOfStringify.id}`);
+    teste.then(showSelectedQuizz);
     
 }
 
