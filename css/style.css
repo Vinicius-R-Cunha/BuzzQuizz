@@ -375,12 +375,12 @@ body {
     margin-top: 8px;
 }
 
-.unselected p{
-    color: #FF4B4B;
+.batata .true p{
+    color: green;
 }
 
-.selected-answer p{
-    color: #009C22;
+.batata .false p{
+    color: red;
 }
 
 .button-reload{

@@ -82,10 +82,10 @@ function selectAnswersQuizz(selectedAnswer){
     if(selectedAnswer.classList.value === "option true"){
         contTrue = contTrue + 100;
     }
-    const selectedBox = selectedAnswer.parentNode.parentNode;
-    selectedAnswer.classList.add("selected-answer");
-    let unselected = selectedBox.querySelectorAll(".option");
 
+    const selectedBox = selectedAnswer.parentNode.parentNode;
+    let unselected = selectedBox.querySelectorAll(".option");
+    selectedBox.classList.add("batata");
     for(let i = 0 ; i < 4 ; i++){
         unselected[i].classList.add("unselected");
     }
