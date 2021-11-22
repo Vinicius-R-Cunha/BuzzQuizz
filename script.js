@@ -21,8 +21,12 @@ function getQuizzes() {
 }
 
 function showQuizzes(quizzes) {
+    const yourQuizzes = document.querySelector('.your-quizzes');
+    const yourQuizzesTab = document.querySelector('.your-quizzes-tab');
+    const youtQuizzesTitle = document.querySelector('.your-quizzes-title');
     const allQuizzes = document.querySelector('.all-quizzes');
-    
+ 
+
     allQuizzes.innerHTML = '';
     
     for (let i = 0; i < quizzes.data.length; i++) {
@@ -30,13 +34,27 @@ function showQuizzes(quizzes) {
         let image = quizzes.data[i].image;
         let title = quizzes.data[i].title;
         
-        allQuizzes.innerHTML += `
-        <div class="quizz" id="${id}" onclick="openQuizz(this)">
-            <img class="quizz-img" src=${image}>
-            <p class="quizz-name">${title}</p>
-            <div class="gradient"></div>
-        </div>
-        `
+        if (localStorage.getItem(`${id}`) === null) {
+            allQuizzes.innerHTML += `
+            <div class="quizz" id="${id}" onclick="openQuizz(this)">
+                <img class="quizz-img" src=${image}>
+                <p class="quizz-name">${title}</p>
+                <div class="gradient"></div>
+            </div>
+            `
+        } else {
+            yourQuizzes.classList.add('hidden');
+            youtQuizzesTitle.classList.remove('hidden');
+
+            yourQuizzesTab.innerHTML += `
+                <div class="your-quizz" id="${id}" onclick="openQuizz(this)">
+                    <img src=${image}>
+                    <p class="quizz-name">${title}</p>
+                    <div class="gradient"></div>
+                </div>
+            `
+
+        }
     }
 }
 
@@ -85,10 +103,8 @@ function scrollPage(){
     const question = document.querySelectorAll('.box-quizz');
     if(cont < howManyQuizz){
         question[cont].scrollIntoView({behavior:"smooth"});
-        console.log("aaaaa")
     }
     else{
-        console.log(result);
         result.scrollIntoView({behavior:"smooth"});
     }
 }
@@ -97,7 +113,6 @@ let howManyQuizz;
 let abcdefgh;
 let quizzPromise;
 function showSelectedQuizz(selectedQuizz) {
-    console.log('entrou aqui');
     // vai para o Layout 2 do quizz clicado
     // esconde o layout-1
     layout1.classList.add('hidden');
@@ -175,14 +190,14 @@ function resultQuizz(){
         }
     }
 }
-    const scrollUp = document.querySelector(".layout-2");
+const scrollUp = document.querySelector(".layout-2");
 
-    function reloadQuizz(){
-        layout2.innerHTML =" ";
-        showSelectedQuizz(abcdefgh);
-        cont = 0;
-        contTrue = 0;
-    }
+function reloadQuizz(){
+    layout2.innerHTML =" ";
+    showSelectedQuizz(abcdefgh);
+    cont = 0;
+    contTrue = 0;
+}
 
 function returnLayout1(){
     reloadQuizz();
@@ -524,8 +539,6 @@ function accessCreatedQuizz() {
     layout3.classList.add('hidden');
 
     const normalFormOfStringify = JSON.parse(localStorage.getItem(`${currentIdCreated}`));
-    
-    console.log(normalFormOfStringify);
     const getActualQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${normalFormOfStringify.id}`);
     getActualQuizz.then(showSelectedQuizz);
     
@@ -581,12 +594,3 @@ function filterLevels() {
 
     return true;
 }
-
-
-
-
-
-
-
-
-
