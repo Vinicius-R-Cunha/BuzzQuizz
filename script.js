@@ -67,7 +67,6 @@ function selectAnswersQuizz(selectedAnswer){
     }
     const selectedBox = selectedAnswer.parentNode.parentNode;
     selectedAnswer.classList.add("selected-answer");
-    console.log(selectedAnswer);
     let unselected = selectedBox.querySelectorAll(".option");
 
     for(let i = 0 ; i < 4 ; i++){
@@ -76,25 +75,27 @@ function selectAnswersQuizz(selectedAnswer){
 
     selectedAnswer.classList.remove("unselected");
 
-    setTimeout(scrollPage, 2001);
+    setTimeout(scrollPage, 2100);
 
     if(cont === howManyQuizz){
         setTimeout(resultQuizz, 2000);
     }
 }
-    const result = document.querySelector(".result-quizz");
 function scrollPage(){
+    const result = document.querySelector(".result-quizz");
     const question = document.querySelectorAll('.box-quizz');
     if(cont < howManyQuizz){
         question[cont].scrollIntoView();
+        console.log("aaaaa")
     }
     else{
+        console.log(result);
         result.scrollIntoView();
     }
 }
 
 let howManyQuizz;
-
+let abcdefgh;
 let quizzPromise;
 function showSelectedQuizz(selectedQuizz) {
     // vai para o Layout 2 do quizz clicado
@@ -103,6 +104,7 @@ function showSelectedQuizz(selectedQuizz) {
     // tira o escondido do layout-2
     layout2.classList.remove('hidden');
     scrollUp.scrollIntoView();
+    abcdefgh = selectedQuizz;
 
     quizzPromise = selectedQuizz.data;
     howManyQuizz = quizzPromise.questions.length;
@@ -116,15 +118,15 @@ function showSelectedQuizz(selectedQuizz) {
     `
     const list = [0,1,2,3];
     list.sort(comparador);
-
     for(let i = 0 ; i < howManyQuizz ; i++){
+
     layout2.innerHTML +=`
     <div class="box-quizz question${i+1}">
         <div class="quizz-title">
             <h1>${quizzPromise.questions[i].title}</h1>
         </div>
         <div class="options-quizz">
-            
+
             <div class="option ${quizzPromise.questions[0].answers[list[0]].isCorrectAnswer}"  onclick="selectAnswersQuizz(this)">
                 <img src="${quizzPromise.questions[i].answers[list[0]].image}"> 
                 <p>${quizzPromise.questions[i].answers[list[0]].text}</p>       
@@ -154,16 +156,16 @@ function showSelectedQuizz(selectedQuizz) {
 function resultQuizz(){
     const x = contTrue/howManyQuizz;
     const percentage = Math.floor(x);
-    for(let i = 2  ; i  > 0 ; i--){
+    for(let i = levelsQuantity.value; i  > 0 ; i--){
         if(percentage >= quizzPromise.levels[i-1].minValue){
-            result.innerHTML =`
+            layout2.innerHTML +=`
             <div class="box-quizz result-quizz">
                 <div class="quizz-title">
                     <h1>${percentage}% de acerto: ${quizzPromise.levels[i-1].title}</h1>
                 </div>
-                <div class"result">
-                    <img src="t${quizzPromise.levels[i-1].image}" alt="">
-                    <P>teste ${quizzPromise.levels[i-1].text}</P>
+                <div class="result">
+                    <img src="${quizzPromise.levels[i-1].image}" alt="">
+                    <P>${quizzPromise.levels[i-1].text}</P>
                 </div class="buttons-settings">
                     <button class="button-reload" onclick="reloadQuizz(this)">Reiniciar Quizz</button>
                     <button class="button-home" onclick="returnLayout1()(this)">Voltar pra home</button>
@@ -174,22 +176,31 @@ function resultQuizz(){
     }
 }
     const scrollUp = document.querySelector(".layout-2");
-function reloadQuizz(reload){
-    const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
-    const removeUnselected = document.querySelectorAll(".unselected");
-    const messageResultQuizz = document.querySelector(".result-quizz");
 
-    for(let i = 0; i < howManyQuizz; i++){
-        removeSelectedAnswer[i].classList.remove("selected-answer");
+    function reloadQuizz(){
+        layout2.innerHTML =" ";
+        showSelectedQuizz(abcdefgh);
+        cont = 0;
+        contTrue = 0;
     }
-    for(let i = 0; i < (howManyQuizz * 3); i++){
-        removeUnselected[i].classList.remove("unselected");
-    }
-    scrollUp.scrollIntoView();
-    //messageResultQuizz.classList.add("hidden");
-    cont = 0;
-    contTrue = 0;
-}
+
+
+// function reloadQuizz(reload){
+//     const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
+//     const removeUnselected = document.querySelectorAll(".unselected");
+//     const messageResultQuizz = document.querySelector(".result-quizz");
+
+//     for(let i = 0; i < howManyQuizz; i++){
+//         removeSelectedAnswer[i].classList.remove("selected-answer");
+//     }
+//     for(let i = 0; i < (howManyQuizz * 3); i++){
+//         removeUnselected[i].classList.remove("unselected");
+//     }
+//     scrollUp.scrollIntoView();
+//     //messageResultQuizz.classList.add("hidden");
+//     cont = 0;
+//     contTrue = 0;
+// }
 
 function returnLayout1(){
     reloadQuizz();
