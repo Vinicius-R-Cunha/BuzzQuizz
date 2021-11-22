@@ -84,12 +84,12 @@ function scrollPage(){
     const result = document.querySelector(".result-quizz");
     const question = document.querySelectorAll('.box-quizz');
     if(cont < howManyQuizz){
-        question[cont].scrollIntoView();
+        question[cont].scrollIntoView({behavior:"smooth"});
         console.log("aaaaa")
     }
     else{
         console.log(result);
-        result.scrollIntoView();
+        result.scrollIntoView({behavior:"smooth"});
     }
 }
 
@@ -103,7 +103,7 @@ function showSelectedQuizz(selectedQuizz) {
     layout1.classList.add('hidden');
     // tira o escondido do layout-2
     layout2.classList.remove('hidden');
-    scrollUp.scrollIntoView();
+    scrollUp.scrollIntoView({behavior:"smooth"});
     abcdefgh = selectedQuizz;
 
     quizzPromise = selectedQuizz.data;
@@ -156,7 +156,7 @@ function showSelectedQuizz(selectedQuizz) {
 function resultQuizz(){
     const x = contTrue/howManyQuizz;
     const percentage = Math.floor(x);
-    for(let i = levelsQuantity.value; i  > 0 ; i--){
+    for(let i = quizzPromise.levels.length; i  > 0 ; i--){
         if(percentage >= quizzPromise.levels[i-1].minValue){
             layout2.innerHTML +=`
             <div class="box-quizz result-quizz">
@@ -183,24 +183,6 @@ function resultQuizz(){
         cont = 0;
         contTrue = 0;
     }
-
-
-// function reloadQuizz(reload){
-//     const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
-//     const removeUnselected = document.querySelectorAll(".unselected");
-//     const messageResultQuizz = document.querySelector(".result-quizz");
-
-//     for(let i = 0; i < howManyQuizz; i++){
-//         removeSelectedAnswer[i].classList.remove("selected-answer");
-//     }
-//     for(let i = 0; i < (howManyQuizz * 3); i++){
-//         removeUnselected[i].classList.remove("unselected");
-//     }
-//     scrollUp.scrollIntoView();
-//     //messageResultQuizz.classList.add("hidden");
-//     cont = 0;
-//     contTrue = 0;
-// }
 
 function returnLayout1(){
     reloadQuizz();
