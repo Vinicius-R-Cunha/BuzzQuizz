@@ -50,6 +50,7 @@ function openQuizz(quizz) {
     const idQuizz = quizz.id;
 
     const SelectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
+    const testee = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
     SelectedQuizz.then(showSelectedQuizz);
 }
 
@@ -58,12 +59,15 @@ function comparador() {
 }
 
 let cont = 0;
-
+let contTrue = 0;
 function selectAnswersQuizz(selectedAnswer){
     cont ++;
+    if(selectedAnswer.classList.value === "option true"){
+        contTrue = contTrue + 100;
+    }
     const selectedBox = selectedAnswer.parentNode.parentNode;
     selectedAnswer.classList.add("selected-answer");
-
+    console.log(selectedAnswer);
     let unselected = selectedBox.querySelectorAll(".option");
 
     for(let i = 0 ; i < 4 ; i++){
@@ -72,24 +76,35 @@ function selectAnswersQuizz(selectedAnswer){
 
     selectedAnswer.classList.remove("unselected");
 
-    setInterval(scrollPage, 2000);
-}
+    setTimeout(scrollPage, 2001);
 
-    function scrollPage(){
-        let question = document.querySelectorAll('.box-quizz');
+    if(cont === howManyQuizz){
+        setTimeout(resultQuizz, 2000);
+    }
+}
+    const result = document.querySelector(".result-quizz");
+function scrollPage(){
+    const question = document.querySelectorAll('.box-quizz');
+    if(cont < howManyQuizz){
         question[cont].scrollIntoView();
     }
+    else{
+        result.scrollIntoView();
+    }
+}
 
 let howManyQuizz;
 
+let quizzPromise;
 function showSelectedQuizz(selectedQuizz) {
     // vai para o Layout 2 do quizz clicado
     // esconde o layout-1
     layout1.classList.add('hidden');
     // tira o escondido do layout-2
     layout2.classList.remove('hidden');
+    scrollUp.scrollIntoView();
 
-    const quizzPromise = selectedQuizz.data;
+    quizzPromise = selectedQuizz.data;
     howManyQuizz = quizzPromise.questions.length;
     layout2.innerHTML =`
     <div class="banner">
@@ -110,22 +125,22 @@ function showSelectedQuizz(selectedQuizz) {
         </div>
         <div class="options-quizz">
             
-            <div class="option"  onclick="selectAnswersQuizz(this)">
+            <div class="option ${quizzPromise.questions[0].answers[list[0]].isCorrectAnswer}"  onclick="selectAnswersQuizz(this)">
                 <img src="${quizzPromise.questions[i].answers[list[0]].image}"> 
                 <p>${quizzPromise.questions[i].answers[list[0]].text}</p>       
             </div>
             
-            <div class="option" onclick="selectAnswersQuizz(this)">
+            <div class="option ${quizzPromise.questions[0].answers[list[1]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
                 <img src="${quizzPromise.questions[i].answers[list[1]].image}">  
                 <p>${quizzPromise.questions[i].answers[list[1]].text}</p>
             </div>
 
-            <div class="option" onclick="selectAnswersQuizz(this)">
+            <div class="option ${quizzPromise.questions[0].answers[list[2]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
                 <img src="${quizzPromise.questions[i].answers[list[2]].image}">
                 <p>${quizzPromise.questions[i].answers[list[2]].text}</p>
             </div>
 
-            <div class="option" onclick="selectAnswersQuizz(this)">
+            <div class="option ${quizzPromise.questions[0].answers[list[3]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
                 <img src="${quizzPromise.questions[i].answers[list[3]].image}">
                 <p>${quizzPromise.questions[i].answers[list[3]].text}</p>
             </div>
@@ -134,6 +149,52 @@ function showSelectedQuizz(selectedQuizz) {
     </div>
     `
     }
+}
+
+function resultQuizz(){
+    const x = contTrue/howManyQuizz;
+    const percentage = Math.floor(x);
+    for(let i = 2  ; i  > 0 ; i--){
+        if(percentage >= quizzPromise.levels[i-1].minValue){
+            result.innerHTML =`
+            <div class="box-quizz result-quizz">
+                <div class="quizz-title">
+                    <h1>${percentage}% de acerto: ${quizzPromise.levels[i-1].title}</h1>
+                </div>
+                <div class"result">
+                    <img src="t${quizzPromise.levels[i-1].image}" alt="">
+                    <P>teste ${quizzPromise.levels[i-1].text}</P>
+                </div class="buttons-settings">
+                    <button class="button-reload" onclick="reloadQuizz(this)">Reiniciar Quizz</button>
+                    <button class="button-home" onclick="returnLayout1()(this)">Voltar pra home</button>
+                </div>
+            `
+            break;
+        }
+    }
+}
+    const scrollUp = document.querySelector(".layout-2");
+function reloadQuizz(reload){
+    const removeSelectedAnswer = document.querySelectorAll(".selected-answer");
+    const removeUnselected = document.querySelectorAll(".unselected");
+    const messageResultQuizz = document.querySelector(".result-quizz");
+
+    for(let i = 0; i < howManyQuizz; i++){
+        removeSelectedAnswer[i].classList.remove("selected-answer");
+    }
+    for(let i = 0; i < (howManyQuizz * 3); i++){
+        removeUnselected[i].classList.remove("unselected");
+    }
+    scrollUp.scrollIntoView();
+    //messageResultQuizz.classList.add("hidden");
+    cont = 0;
+    contTrue = 0;
+}
+
+function returnLayout1(){
+    reloadQuizz();
+    layout2.classList.add('hidden');
+    layout1.classList.remove('hidden');
 }
 
 
