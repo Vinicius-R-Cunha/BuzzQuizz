@@ -47,11 +47,10 @@ function reloadPage() {
 
 function openQuizz(quizz) {
     // id do quizz que foi clicado
-    const idQuizz = quizz.id;
+    const idQuizz = quizz.data.id;
 
-    const SelectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
-    const testee = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
-    SelectedQuizz.then(showSelectedQuizz);
+    const selectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
+    selectedQuizz.then(showSelectedQuizz);
 }
 
 function comparador() { 
@@ -97,6 +96,7 @@ let howManyQuizz;
 
 let quizzPromise;
 function showSelectedQuizz(selectedQuizz) {
+    console.log('entrou aqui');
     // vai para o Layout 2 do quizz clicado
     // esconde o layout-1
     layout1.classList.add('hidden');
@@ -494,11 +494,14 @@ function finishQuizz() {
     }
 }
 
+let currentIdCreated;
+
 function goToFinalCreationPage(createdQuizz) {
        
     //armezeno o createdQuizz no localStorage identificado pelo ID
     const stringFormOfCreatedQuizz = JSON.stringify(createdQuizz.data); 
     localStorage.setItem(`${createdQuizz.data.id}`,stringFormOfCreatedQuizz);
+    currentIdCreated = createdQuizz.data.id;
 
     if (createdQuizz !== undefined) {
         ending.innerHTML = `
@@ -524,12 +527,14 @@ function goToFinalCreationPage(createdQuizz) {
 
 function accessCreatedQuizz() {
 
-    ending.classList.add('hidden')
+    ending.classList.add('hidden');
+    layout3.classList.add('hidden');
 
-    const normalFormOfStringify = JSON.parse(localStorage.getItem("userQuizz"));
+    const normalFormOfStringify = JSON.parse(localStorage.getItem(`${currentIdCreated}`));
+    
     console.log(normalFormOfStringify);
-    const teste = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${normalFormOfStringify.id}`);
-    teste.then(showSelectedQuizz);
+    const getActualQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${normalFormOfStringify.id}`);
+    getActualQuizz.then(showSelectedQuizz);
     
 }
 
