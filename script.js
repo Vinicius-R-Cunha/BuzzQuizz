@@ -219,13 +219,19 @@ function continueToQuestions() {
     let validQuestionNumber = false;
     let validLevelNumber = false;
 
-    if (titleInput.value.length >= 20 && titleInput.value.length <= 65 && titleInput.value !== '') {
+    
+    if (titleInput.value.replace(/\s/g, '').length >= 20 && titleInput.value.replace(/\s/g, '').length <= 65 && titleInput.value !== '') {
         validTitle = true;
     } else {
         // Título errado
     }
 
     // verificacao de URL
+    if (isURL(urlInput.value)) {
+        validUrl = true;
+    } else {
+        // URL inválida
+    }
 
     if (questionsQuantity.value % 1 === 0 && questionsQuantity.value >= 3 && isNaN(parseInt(questionsQuantity.value)) === false) {
         validQuestionNumber = true;
@@ -240,7 +246,7 @@ function continueToQuestions() {
     }
 
 
-    if (validTitle && validQuestionNumber && validLevelNumber) {
+    if (validTitle && validUrl && validQuestionNumber && validLevelNumber) {
         beginning.classList.add('hidden');
         questions.classList.remove('hidden');
         // printa a quantidade de perguntas que precisa a partir da 2;
@@ -326,35 +332,35 @@ let levelsArray = [];
 
 function continueToLevels() {
     // só continua se as perguntas estiver OK (filterQuestions retorna True)
-    if (filterQuestions()) { 
-        const allTitlesSelected = document.querySelectorAll('.questions .question-title');
-        const allColorsSelected = document.querySelectorAll('.questions .color');
-        const allAnswersSelected = document.querySelectorAll('.questions .answer');
-        const allUrlSelected = document.querySelectorAll('.questions .url');
-        
-        answersArray = [];
-        questionsArray = [];
-        // organiza a lista de answers em blocos de 4
-        for (let i = 0; i < allTitlesSelected.length; i++) {
-            answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
-                            {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
-                            {text:allAnswersSelected[4*i+2].value, image:allUrlSelected[4*i+2].value, isCorrectAnswer: false},
-                            {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
-        }
-
-        // monta a lista de questions que será enviada pelo post
-        // removo as answers que nao tem texto ou imagem antes de colocar no questions
-        for (let i = 0; i < allTitlesSelected.length; i++) {
-            let arrayIJ = [];
-            for (let j = 0; j < answersArray[i].length; j++) {
-                if (answersArray[i][j].text !== '' && answersArray[i][j].image !== '') {
-                    arrayIJ.push(answersArray[i][j]);
-                }
-            }
-            
-            questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:arrayIJ});
-        }
+    const allTitlesSelected = document.querySelectorAll('.questions .question-title');
+    const allColorsSelected = document.querySelectorAll('.questions .color');
+    const allAnswersSelected = document.querySelectorAll('.questions .answer');
+    const allUrlSelected = document.querySelectorAll('.questions .url');
     
+    answersArray = [];
+    questionsArray = [];
+    // organiza a lista de answers em blocos de 4
+    for (let i = 0; i < allTitlesSelected.length; i++) {
+        answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
+                        {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
+                        {text:allAnswersSelected[4*i+2].value, image:allUrlSelected[4*i+2].value, isCorrectAnswer: false},
+                        {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
+    }
+
+    // monta a lista de questions que será enviada pelo post
+    // removo as answers que nao tem texto ou imagem antes de colocar no questions
+    for (let i = 0; i < allTitlesSelected.length; i++) {
+        let arrayIJ = [];
+        for (let j = 0; j < answersArray[i].length; j++) {
+            if (answersArray[i][j].text !== '' && answersArray[i][j].image !== '') {
+                arrayIJ.push(answersArray[i][j]);
+            }
+        }
+        
+        questionsArray.push({title:allTitlesSelected[i].value, color:allColorsSelected[i].value , answers:arrayIJ});
+    }
+
+    if (filterQuestions()) { 
         questions.classList.add('hidden');
         levels.classList.remove('hidden');
         showLevels(parseInt(levelsQuantity.value));
@@ -363,9 +369,10 @@ function continueToLevels() {
 
 function filterQuestions() {
     
+    //.replace(/\s/g, '').length
     // texto da pergunta != vazio e mais de 20 characteres
     for (let i = 0; i < questionsArray.length; i++) {
-        if (questionsArray[i].title.length < 20 || questionsArray[i].title === '') {
+        if (questionsArray[i].title.replace(/\s/g, '').length < 20 || questionsArray[i].title === '') {
             alert(`Texto da Pergunta ${i+1} errado`);
             return false;
         }
@@ -382,7 +389,7 @@ function filterQuestions() {
     // as duas primeiras respostas não podem estar vazias, entao acesso todos os arrays i j
     for (let i = 0; i < answersArray.length; i++) {
         for (let j = 0; j < 2; j++) {
-            if (answersArray[i][j].text === '' || answersArray[i][j].image === '') {
+            if (answersArray[i][j].text.replace(/\s/g, '').length === 0 || answersArray[i][j].image.replace(/\s/g, '').length === 0 || !isURL(answersArray[i][j].image)) {
                 if (j === 0) {
                     alert(`Preencha a resposta certa`);
                 } else {
@@ -393,7 +400,15 @@ function filterQuestions() {
         }
     }
 
-    // verificacao de URL
+    // verificacao se é URL
+    for (let i = 0; i < answersArray.length; i++) {
+        for (let j = 0; j < answersArray[i].length; j++) {
+            if (!isURL(answersArray[i][j].image)) {
+                alert(`URL ${j} inválida`)
+                return false;
+            }
+        }
+    }
 
     
     return true;
@@ -552,9 +567,10 @@ function filterLevels() {
     const levelUrlSelected = document.querySelectorAll('.levels .level-url');
     const levelDescriptionSelected = document.querySelectorAll('.levels .level-description');
 
+
     // titulo do nivel min 10 caracteres 
     for (let i = 0; i < levelTitlesSelected.length; i++) {
-        if (levelTitlesSelected[i].value.length < 10) {
+        if (levelTitlesSelected[i].value.replace(/\s/g, '').length < 10) {
             alert(`Título ${i+1} muito curto`);
             return false;
         }
@@ -569,15 +585,18 @@ function filterLevels() {
     }
 
     // verificacao de URL
+    if (!isURL(levelUrlSelected.value)) {
+        alert('Digite um link válido');
+        return false;
+    }
 
 
     // descricao do nivel min 30 caracteres
     for (let i = 0; i < levelDescriptionSelected.length; i++) {
-        if (levelDescriptionSelected[i].value.length < 30) {
+        if (levelDescriptionSelected[i].value.replace(/\s/g, '').length < 30) {
             alert(`Descrição ${i+1} muito curta`);
             return false;
         }
-
     }
 
     // pelo menos uma porcentagem de acerto seja 0
@@ -594,4 +613,15 @@ function filterLevels() {
     }
 
     return true;
+}
+
+function isURL(str) {
+    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+
+    return pattern.test(str);
 }
