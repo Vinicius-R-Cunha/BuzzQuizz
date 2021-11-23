@@ -36,7 +36,7 @@ function showQuizzes(quizzes) {
         
         if (localStorage.getItem(`${id}`) === null) {
             allQuizzes.innerHTML += `
-            <div class="quizz" id="${id}" onclick="openQuizz(this)">
+            <div class="quizz" id="${id}" data-identifier="quizz-card" onclick="openQuizz(this)">
                 <img class="quizz-img" src=${image}>
                 <p class="quizz-name">${title}</p>
                 <div class="gradient"></div>
@@ -47,7 +47,7 @@ function showQuizzes(quizzes) {
             youtQuizzesTitle.classList.remove('hidden');
 
             yourQuizzesTab.innerHTML += `
-                <div class="your-quizz" id="${id}" onclick="openQuizz(this)">
+                <div class="your-quizz" id="${id}" data-identifier="quizz-card" onclick="openQuizz(this)">
                     <img src=${image}>
                     <p class="quizz-name">${title}</p>
                     <div class="gradient"></div>
@@ -263,7 +263,7 @@ function showQuestions(num) {
         questions.innerHTML += `
             <div class="inputs-div">
 
-                <div class="minimize sub-sub-title" onclick="maximizeQuestion(this)">
+                <div class="minimize sub-sub-title" data-identifier="expand" onclick="maximizeQuestion(this)">
                     <p>Pergunta ${i}</p>
                     <ion-icon name="create-outline"></ion-icon>
                 </div>
@@ -271,24 +271,24 @@ function showQuestions(num) {
 
                 <div class="closed hidden">
                     <div class="question sub-sub-title"><p>Pergunta ${i}</p>
-                        <input class="question-title" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
-                        <input class="color" placeholder="Cor de fundo da pergunta" type="text" value="#123456">
+                        <input class="question-title" data-identifier="question" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
+                        <input class="color" data-identifier="question" placeholder="Cor de fundo da pergunta" type="text" value="#123456">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" placeholder="Resposta correta" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" placeholder="URL da imagem" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta correta" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem" type="text" value="https://http.cat/411.jpg">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" placeholder="Resposta incorreta 1" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" placeholder="URL da imagem 1" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 1" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 1" type="text" value="https://http.cat/411.jpg">
 
-                        <input class="answer" placeholder="Resposta incorreta 2" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" placeholder="URL da imagem 2" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 2" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 2" type="text" value="https://http.cat/411.jpg">
 
-                        <input class="answer" placeholder="Resposta incorreta 3" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" placeholder="URL da imagem 3" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 3" type="text" value="repostinhaaaaaaaaaaaaaaaa">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 3" type="text" value="https://http.cat/411.jpg">
                     </div>
                 </div>
 
@@ -448,17 +448,17 @@ function showLevels(num) {
         levels.innerHTML += `
             <div class="inputs-div">
 
-                <div class="minimize sub-sub-title" onclick="maximizeLevel(this)">
+                <div class="minimize sub-sub-title" data-identifier="expand" onclick="maximizeLevel(this)">
                     <p>Nível ${i}</p>
                     <ion-icon name="create-outline"></ion-icon>
                 </div>
                 
                 <div class="closed hidden">
                     <div class="level-info sub-sub-title"><p>Nível ${i}</p>
-                        <input class="level-title" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
-                        <input class="percentage" placeholder="% de acerto mínima" type="text" value="0">
-                        <input class="level-url" placeholder="URL da imagem do nível" type="text" value="https://http.cat/412.jpg">
-                        <input class="level-description" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+                        <input class="level-title" data-identifier="level" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
+                        <input class="percentage" data-identifier="level" placeholder="% de acerto mínima" type="text" value="0">
+                        <input class="level-url" data-identifier="level" placeholder="URL da imagem do nível" type="text" value="https://http.cat/412.jpg">
+                        <input class="level-description" data-identifier="level" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
                     </div>
                 </div>
 
