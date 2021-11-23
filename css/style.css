@@ -375,11 +375,11 @@ body {
     margin-top: 8px;
 }
 
-.batata .true p{
+.color-answer .true p{
     color: green;
 }
 
-.batata .false p{
+.color-answer .false p{
     color: red;
 }
 

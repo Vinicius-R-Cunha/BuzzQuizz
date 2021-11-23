@@ -14,6 +14,8 @@ const urlInput = document.querySelector('.input-url');
 const questionsQuantity = document.querySelector('.input-questions-quantity');
 const levelsQuantity = document.querySelector('.input-levels-quantity');
 
+let quizzPromise;
+
 function getQuizzes() {   
     const quizzes = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
     
@@ -53,7 +55,6 @@ function showQuizzes(quizzes) {
                     <div class="gradient"></div>
                 </div>
             `
-
         }
     }
 }
@@ -76,23 +77,29 @@ function comparador() {
 }
 
 let cont = 0;
+let cont2 = 0
 let contTrue = 0;
 function selectAnswersQuizz(selectedAnswer){
     cont ++;
+
     if(selectedAnswer.classList.value === "option true"){
         contTrue = contTrue + 100;
     }
 
     const selectedBox = selectedAnswer.parentNode.parentNode;
     let unselected = selectedBox.querySelectorAll(".option");
-    selectedBox.classList.add("batata");
-    for(let i = 0 ; i < 4 ; i++){
-        unselected[i].classList.add("unselected");
+    selectedBox.classList.add("color-answer");
+    let i
+
+    for(let j = 0 ; j < quizzPromise.questions[cont2].answers.length; j++){
+        unselected[j].classList.add("unselected");
+        console.log(j);
     }
+    cont2 ++;
 
     selectedAnswer.classList.remove("unselected");
 
-    setTimeout(scrollPage, 2100);
+    setTimeout(scrollPage, 2001);
 
     if(cont === howManyQuizz){
         setTimeout(resultQuizz, 2000);
@@ -111,7 +118,6 @@ function scrollPage(){
 
 let howManyQuizz;
 let abcdefgh;
-let quizzPromise;
 function showSelectedQuizz(selectedQuizz) {
     // vai para o Layout 2 do quizz clicado
     // esconde o layout-1
@@ -132,39 +138,102 @@ function showSelectedQuizz(selectedQuizz) {
     </div>
     `
     const list = [0,1,2,3];
+
+    const list2 = [0,1,2];
+
+    const list3 = [0,1];
+
     list.sort(comparador);
+    list2.sort(comparador);
+    list3.sort(comparador);
+
     for(let i = 0 ; i < howManyQuizz ; i++){
+        if(quizzPromise.questions[i].answers.length === 4){
+            layout2.innerHTML +=`
+            <div class="box-quizz question${i+1} data-identifier="question"">
+                <div class="quizz-title">
+                    <h1>${quizzPromise.questions[i].title}</h1>
+                </div>
+                <div class="options-quizz">
 
-    layout2.innerHTML +=`
-    <div class="box-quizz question${i+1}">
-        <div class="quizz-title">
-            <h1>${quizzPromise.questions[i].title}</h1>
-        </div>
-        <div class="options-quizz">
+                    <div class="option ${quizzPromise.questions[i].answers[list[0]].isCorrectAnswer}"  data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list[0]].image}"> 
+                        <p>${quizzPromise.questions[i].answers[list[0]].text}</p>       
+                    </div>
+                    
+                    <div class="option ${quizzPromise.questions[i].answers[list[1]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list[1]].image}">  
+                        <p>${quizzPromise.questions[i].answers[list[1]].text}</p>
+                    </div>
 
-            <div class="option ${quizzPromise.questions[0].answers[list[0]].isCorrectAnswer}"  onclick="selectAnswersQuizz(this)">
-                <img src="${quizzPromise.questions[i].answers[list[0]].image}"> 
-                <p>${quizzPromise.questions[i].answers[list[0]].text}</p>       
+                    <div class="option ${quizzPromise.questions[i].answers[list[2]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list[2]].image}">
+                        <p>${quizzPromise.questions[i].answers[list[2]].text}</p>
+                    </div>
+
+                    <div class="option ${quizzPromise.questions[i].answers[list[3]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list[3]].image}">
+                        <p>${quizzPromise.questions[i].answers[list[3]].text}</p>
+                    </div>
+
+                </div>
             </div>
-            
-            <div class="option ${quizzPromise.questions[0].answers[list[1]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
-                <img src="${quizzPromise.questions[i].answers[list[1]].image}">  
-                <p>${quizzPromise.questions[i].answers[list[1]].text}</p>
-            </div>
+            `
+        }
 
-            <div class="option ${quizzPromise.questions[0].answers[list[2]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
-                <img src="${quizzPromise.questions[i].answers[list[2]].image}">
-                <p>${quizzPromise.questions[i].answers[list[2]].text}</p>
-            </div>
+        if(quizzPromise.questions[i].answers.length === 3){
+            layout2.innerHTML +=`
+            <div class="box-quizz question${i+1}" data-identifier="question">
+                <div class="quizz-title">
+                    <h1>${quizzPromise.questions[i].title}</h1>
+                </div>
+                <div class="options-quizz">
 
-            <div class="option ${quizzPromise.questions[0].answers[list[3]].isCorrectAnswer}" onclick="selectAnswersQuizz(this)">
-                <img src="${quizzPromise.questions[i].answers[list[3]].image}">
-                <p>${quizzPromise.questions[i].answers[list[3]].text}</p>
-            </div>
+                    <div class="option ${quizzPromise.questions[i].answers[list2[0]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list2[0]].image}"> 
+                        <p>${quizzPromise.questions[i].answers[list2[0]].text}</p>       
+                    </div>
+                    
+                    <div class="option ${quizzPromise.questions[i].answers[list2[1]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list2[1]].image}">  
+                        <p>${quizzPromise.questions[i].answers[list2[1]].text}</p>
+                    </div>
 
-        </div>
-    </div>
-    `
+                    <div class="option ${quizzPromise.questions[i].answers[list2[2]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list2[2]].image}">
+                        <p>${quizzPromise.questions[i].answers[list2[2]].text}</p>
+                    </div>
+
+                </div>
+            </div>
+            `
+        }
+
+        if(quizzPromise.questions[i].answers.length === 2){
+            layout2.innerHTML +=`
+            <div class="box-quizz question${i+1}" data-identifier="question">
+                <div class="quizz-title">
+                    <h1>${quizzPromise.questions[i].title}</h1>
+                </div>
+                <div class="options-quizz">
+
+                    <div class="option ${quizzPromise.questions[i].answers[list3[0]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list3[0]].image}"> 
+                        <p>${quizzPromise.questions[i].answers[list3[0]].text}</p>       
+                    </div>
+                    
+                    <div class="option ${quizzPromise.questions[i].answers[list3[1]].isCorrectAnswer}" data-identifier="answer" onclick="selectAnswersQuizz(this)">
+                        <img src="${quizzPromise.questions[i].answers[list3[1]].image}">  
+                        <p>${quizzPromise.questions[i].answers[list3[1]].text}</p>
+                    </div>
+
+                </div>
+            </div>
+            `
+        }
+        list.sort(comparador);
+        list2.sort(comparador);
+        list3.sort(comparador);
     }
 }
 
@@ -175,7 +244,7 @@ function resultQuizz(){
     for(let i = quizzPromise.levels.length; i  > 0 ; i--){
         if(percentage >= quizzPromise.levels[i-1].minValue){
             layout2.innerHTML +=`
-            <div class="box-quizz result-quizz">
+            <div class="box-quizz result-quizz" data-identifier="quizz-result">
                 <div class="quizz-title">
                     <h1>${percentage}% de acerto: ${quizzPromise.levels[i-1].title}</h1>
                 </div>
@@ -198,6 +267,7 @@ function reloadQuizz(){
     showSelectedQuizz(abcdefgh);
     cont = 0;
     contTrue = 0;
+    cont2 = 0;
 }
 
 function returnLayout1(){
