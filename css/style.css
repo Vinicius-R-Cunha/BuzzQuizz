@@ -35,6 +35,15 @@ body {
     cursor: pointer;
 }
 
+.loading {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    padding-top: 200px;
+}
+
 .layout-1 {
     width: 100%;
 
@@ -185,8 +194,34 @@ body {
     position: relative;
 }
 
+.your-quizzes-tab .your-quizz .delete-button {
+    width: 43px;
+    height: 87px;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
+    background: #EC362D;
+    border-radius: 10px 0px 0px 11px;
+
+    position: absolute;
+
+    top: 10px;
+    right: 0;
+}
+
+.your-quizzes-tab .your-quizz .delete-button ion-icon{
+    font-size: 25px;
+
+    color: #FFFFFF;
+
+    cursor: pointer;
+}
+
+.your-quizzes-tab .your-quizz .delete-button ion-icon:first-child {
+    margin: 9px 0 13px 3px;
+}
 
 .all-quizzes-title {
     width: 1051px;
@@ -505,8 +540,24 @@ body {
 .layout-3 input::placeholder {
     font-style: italic;
     font-weight: 400;
-
+    
     color: #BABABA;
+}
+
+.layout-3 .error {
+    width: 564px;
+    
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    
+    color: #EC362D;
+    
+    padding-bottom: 10px;
+}
+
+.layout-3 .error-color-input {
+    background-color: #FFE9E9;
 }
 
 .layout-3 .continue-button {
@@ -782,7 +833,10 @@ body {
         margin: 0 auto;
     }
 
-    
+    .layout-3 .beginning .error {
+        width: 90%;
+    }
+
     .layout-3 .questions {
         width: 100%;
     }

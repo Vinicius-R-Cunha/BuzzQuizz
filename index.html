@@ -17,7 +17,11 @@
         <h1 onclick="reloadPage()">BuzzQuizz</h1>
     </header>
 
-    <div class="layout-1">        
+    <div class="loading">
+        <img src="/media/Loading.gif">
+    </div>
+
+    <div class="layout-1 hidden">        
         <div class="your-quizzes">
             <p>Você não criou nenhum</p>
             <p>quizz ainda :(</p>
@@ -45,45 +49,21 @@
     </div>
 
     <div class="layout-2 hidden">
-       <!-- <div class="banner">
-            <img src="./media/poster.png" alt="">
-        </div>
-        <div class="banner-title">
-            <h1>titulo do quizz</h1>
-        </div>
-        <div class="box-quizz">
-            <div class="quizz-title">
-                <h1>Em qual animal Olho-Tonto Moody transfigurou Malfoy?</h1>
-            </div>
-            <div class="options-quizz">
-                <div class="option">
-                    <img src="./media/gato.png" alt="">
-                    <p>Gatíneo</p>
-                </div>
-                <div class="option">
-                    <img src="./media/gato.png" alt="">
-                    <p>Gatíneo</p>
-                </div>
-                <div class="option">
-                    <img src="./media/gato.png" alt="">
-                    <p>Gatíneo</p>
-                </div>
-                <div class="option">
-                    <img src="./media/gato.png" alt="">
-                    <p>Gatíneo</p>
-                </div>
-            </div>
-        </div> -->
+       
     </div>
     
     <div class="layout-3 hidden">
         <div class="beginning">
             <p class="sub-title">Comece pelo começo</p>
             <div class="inputs-div">
-                <input class="input-title" placeholder="Título do seu quizz" type="text" value="asdasdasdasdasdasdasdasdasdasdasdasd">
-                <input class="input-url" placeholder="URL da imagem do seu quizz" type="text" value="https://http.cat/411.jpg">
-                <input class="input-questions-quantity" placeholder="Quantidade de perguntas do quizz" type="text" value="3">
-                <input class="input-levels-quantity" placeholder="Quantidade de níveis do quizz" type="text" value="3">
+                <input class="input-title" placeholder="Título do seu quizz" type="text">
+                <p class="error hidden">O título deve ter entre 20 e 65 caracteres</p>
+                <input class="input-url" placeholder="URL da imagem do seu quizz" type="text">
+                <p class="error hidden">O valor informado não é uma URL válida</p>
+                <input class="input-questions-quantity" placeholder="Quantidade de perguntas do quizz" type="text">
+                <p class="error hidden">O quizz deve ter no mínimo 3 perguntas</p>
+                <input class="input-levels-quantity" placeholder="Quantidade de níveis do quizz" type="text">
+                <p class="error hidden">O quizz deve ter no mínimo 2 níveis</p>
             </div>
             <div class="continue-button continue-to-questions" onclick="continueToQuestions()">
                 <p>Prosseguir para criar perguntas</p>
@@ -104,24 +84,24 @@
                 
                 <div class="open">
                     <div class="question sub-sub-title"><p>Pergunta 1</p>
-                        <input class="question-title" data-identifier="question" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
-                        <input class="color" data-identifier="question" placeholder="Cor de fundo da pergunta" type="text" value="#123456">
+                        <input class="question-title" data-identifier="question" placeholder="Texto da pergunta" type="text">
+                        <input class="color" data-identifier="question" placeholder="Cor de fundo da pergunta" type="text">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" data-identifier="question" placeholder="Resposta correta" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta correta" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem" type="text">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 1" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 1" type="text" value="https://http.cat/411.jpg">
-
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 2" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 2" type="text" value="https://http.cat/411.jpg">
-
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 3" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 3" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 1" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 1" type="text">
+                        
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 2" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 2" type="text">
+                        
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 3" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 3" type="text">
                     </div>
                 </div>
             </div>
@@ -141,10 +121,10 @@
                 
                 <div class="open">
                     <div class="level-info sub-sub-title"><p>Nível 1</p>
-                        <input class="level-title" data-identifier="level" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
-                        <input class="percentage" data-identifier="level" placeholder="% de acerto mínima" type="text" value="0">
-                        <input class="level-url" data-identifier="level" placeholder="URL da imagem do nível" type="text" value="https://http.cat/412.jpg">
-                        <input class="level-description" data-identifier="level" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+                        <input class="level-title" data-identifier="level" placeholder="Título do nível" type="text">
+                        <input class="percentage" data-identifier="level" placeholder="% de acerto mínima" type="text">
+                        <input class="level-url" data-identifier="level" placeholder="URL da imagem do nível" type="text">
+                        <input class="level-description" data-identifier="level" placeholder="Descrição do nível" type="text">
                     </div>
                 </div>
             </div>

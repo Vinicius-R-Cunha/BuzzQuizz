@@ -1,5 +1,6 @@
 getQuizzes();
 
+const loading = document.querySelector('.loading');
 const layout1 = document.querySelector('.layout-1');
 const layout2 = document.querySelector('.layout-2');
 const layout3 = document.querySelector('.layout-3');
@@ -33,6 +34,10 @@ function getQuizzes() {
 }
 
 function showQuizzes(quizzes) {
+
+    layout1.classList.remove('hidden');
+    loading.classList.add('hidden');
+
     const yourQuizzes = document.querySelector('.your-quizzes');
     const yourQuizzesTab = document.querySelector('.your-quizzes-tab');
     const youtQuizzesTitle = document.querySelector('.your-quizzes-title');
@@ -45,7 +50,6 @@ function showQuizzes(quizzes) {
         let id = quizzes.data[i].id;
         let image = quizzes.data[i].image;
         let title = quizzes.data[i].title;
-        
         if (localStorage.getItem(`${id}`) === null) {
             allQuizzes.innerHTML += `
             <div class="quizz" id="${id}" data-identifier="quizz-card" onclick="openQuizz(this)">
@@ -63,23 +67,30 @@ function showQuizzes(quizzes) {
                     <img src=${image}>
                     <p class="quizz-name">${title}</p>
                     <div class="gradient"></div>
+                    <div class="delete-button">
+                        <ion-icon name="create-outline"></ion-icon>
+                        <ion-icon name="trash-outline" onclick="deleteQuizz(this)"></ion-icon>
+                    </div>
                 </div>
             `
         }
     }
 }
 
-// volta pra página inicial se clicar na logo la em cima
+// goes back to initial page by clicking logo
 function reloadPage() {
     window.location.reload();
 }
 
 function openQuizz(quizz) {
-    // id do quizz que foi clicado
+    // clicked quizz id
     const idQuizz = quizz.id;
 
     const selectedQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${idQuizz}`);
     selectedQuizz.then(showSelectedQuizz);
+
+    layout1.classList.add('hidden');
+    loading.classList.remove('hidden');
 }
 
 function selectAnswersQuizz(selectedAnswer){
@@ -96,7 +107,6 @@ function selectAnswersQuizz(selectedAnswer){
 
     for(let j = 0 ; j < quizzPromise.questions[cont2].answers.length; j++){
         unselected[j].classList.add("unselected");
-        console.log(j);
     }
     cont2 ++;
 
@@ -112,20 +122,24 @@ function scrollPage(){
     const result = document.querySelector(".result-quizz");
     const question = document.querySelectorAll('.box-quizz');
     if(cont < howManyQuizz){
-        question[cont].scrollIntoView({behavior:"smooth"});
+        question[cont].scrollIntoView({behavior:"smooth",block:"center"});
     }
     else{
-        result.scrollIntoView({behavior:"smooth"});
+        result.scrollIntoView({behavior:"smooth",block:"center"});
     }
 }
 
-function showSelectedQuizz(selectedQuizz) {
-    // vai para o Layout 2 do quizz clicado
-    // esconde o layout-1
-    layout1.classList.add('hidden');
-    // tira o escondido do layout-2
+function delayQuizzOpening() {
+    loading.classList.add('hidden');
     layout2.classList.remove('hidden');
-    scrollUp.scrollIntoView({behavior:"smooth"});
+}
+
+function showSelectedQuizz(selectedQuizz) {
+    layout1.classList.add('hidden');
+    
+    setTimeout(delayQuizzOpening,200);
+
+    scrollUp.scrollIntoView({behavior:"smooth",block:"center"});
     reloadedQuizz = selectedQuizz;
 
     quizzPromise = selectedQuizz.data;
@@ -238,7 +252,6 @@ function showSelectedQuizz(selectedQuizz) {
     }
 }
 
-
 function resultQuizz(){
     const percent = contTrue/howManyQuizz;
     const percentage = Math.floor(percent);
@@ -278,6 +291,7 @@ function createQuizz() {
 
 function continueToQuestions() {
     
+    const errorsBeginning = document.querySelectorAll('.beginning .error');
     let validTitle = false;
     let validUrl = false;
     let validQuestionNumber = false;
@@ -285,38 +299,46 @@ function continueToQuestions() {
 
     
     if (titleInput.value.replace(/\s/g, '').length >= 20 && titleInput.value.replace(/\s/g, '').length <= 65 && titleInput.value !== '') {
+        titleInput.classList.remove('error-color-input');
+        errorsBeginning[0].classList.add('hidden');
         validTitle = true;
     } else {
-        // Título errado
+        titleInput.classList.add('error-color-input');
+        errorsBeginning[0].classList.remove('hidden');
     }
 
-    // verificacao de URL
     if (isURL(urlInput.value)) {
+        urlInput.classList.remove('error-color-input');
+        errorsBeginning[1].classList.add('hidden');
         validUrl = true;
     } else {
-        // URL inválida
+        urlInput.classList.add('error-color-input');
+        errorsBeginning[1].classList.remove('hidden');
     }
 
     if (questionsQuantity.value % 1 === 0 && questionsQuantity.value >= 3 && isNaN(parseInt(questionsQuantity.value)) === false) {
+        questionsQuantity.classList.remove('error-color-input');
+        errorsBeginning[2].classList.add('hidden');
         validQuestionNumber = true;
     } else {
-        // Quantidade de perguntas errada
+        questionsQuantity.classList.add('error-color-input');
+        errorsBeginning[2].classList.remove('hidden');
     }
 
     if (levelsQuantity.value % 1 === 0 && levelsQuantity.value >= 2 && isNaN(parseInt(levelsQuantity.value)) === false) {
+        levelsQuantity.classList.remove('error-color-input');
+        errorsBeginning[3].classList.add('hidden');
         validLevelNumber = true;
     } else {
-        // Quantidade de níveis errado
+        levelsQuantity.classList.add('error-color-input');
+        errorsBeginning[3].classList.remove('hidden');
     }
 
 
     if (validTitle && validUrl && validQuestionNumber && validLevelNumber) {
         beginning.classList.add('hidden');
         questions.classList.remove('hidden');
-        // printa a quantidade de perguntas que precisa a partir da 2;
         showQuestions(parseInt(questionsQuantity.value));
-    } else {
-        alert("Bobeou amigão");
     }
 
 }
@@ -335,24 +357,24 @@ function showQuestions(num) {
 
                 <div class="closed hidden">
                     <div class="question sub-sub-title"><p>Pergunta ${i}</p>
-                        <input class="question-title" data-identifier="question" placeholder="Texto da pergunta" type="text" value="aaaaaaaaaaaaaaaaaaaa">
-                        <input class="color" data-identifier="question" placeholder="Cor de fundo da pergunta" type="text" value="#123456">
+                        <input class="question-title" data-identifier="question" placeholder="Texto da pergunta" type="text">
+                        <input class="color" data-identifier="question" placeholder="Cor de fundo da pergunta" type="text">
                     </div>
 
                     <div class="correct-answer sub-sub-title"><p>Resposta correta</p>
-                        <input class="answer" data-identifier="question" placeholder="Resposta correta" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta correta" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem" type="text">
                     </div>
 
                     <div class="incorrect-answers sub-sub-title"><p>Respostas incorretas</p>
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 1" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 1" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 1" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 1" type="text">
 
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 2" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 2" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 2" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 2" type="text">
 
-                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 3" type="text" value="repostinhaaaaaaaaaaaaaaaa">
-                        <input class="url" data-identifier="question" placeholder="URL da imagem 3" type="text" value="https://http.cat/411.jpg">
+                        <input class="answer" data-identifier="question" placeholder="Resposta incorreta 3" type="text">
+                        <input class="url" data-identifier="question" placeholder="URL da imagem 3" type="text">
                     </div>
                 </div>
 
@@ -368,21 +390,19 @@ function showQuestions(num) {
 }
 
 function maximizeQuestion(question) {
-
-    // encontro quem está aberto dentro de questions e fecho
+    // find whoever is open and close it
     const openQuestion = questions.querySelector('.open');
     openQuestion.classList.add('closed');
     openQuestion.classList.add('hidden');
     openQuestion.classList.remove('open');
 
-    // encontro o irmão minimize que está hidden e tiro o hidden
+    // remove minimize of the brother element  
     const minimize = openQuestion.parentNode.querySelector('.minimize');
     minimize.classList.remove('hidden');
 
-    // coloco hidden no elemento minimize que foi clicado
+    // hide clicked element
     question.classList.add('hidden');
 
-    // encontro o irmão closed que está hidden, tiro ambas as classes e coloco open
     const closedDiv = question.parentNode.querySelector('.closed');
     closedDiv.classList.remove('closed');
     closedDiv.classList.remove('hidden');
@@ -395,7 +415,7 @@ let questionsArray = [];
 let levelsArray = [];
 
 function continueToLevels() {
-    // só continua se as perguntas estiver OK (filterQuestions retorna True)
+
     const allTitlesSelected = document.querySelectorAll('.questions .question-title');
     const allColorsSelected = document.querySelectorAll('.questions .color');
     const allAnswersSelected = document.querySelectorAll('.questions .answer');
@@ -403,7 +423,7 @@ function continueToLevels() {
     
     answersArray = [];
     questionsArray = [];
-    // organiza a lista de answers em blocos de 4
+    // answers array in blocks of 4
     for (let i = 0; i < allTitlesSelected.length; i++) {
         answersArray.push([{text:allAnswersSelected[4*i].value ,image:allUrlSelected[4*i].value, isCorrectAnswer: true},
                         {text:allAnswersSelected[4*i+1].value, image:allUrlSelected[4*i+1].value, isCorrectAnswer: false},
@@ -411,8 +431,7 @@ function continueToLevels() {
                         {text:allAnswersSelected[4*i+3].value, image:allUrlSelected[4*i+3].value, isCorrectAnswer: false}]);
     }
 
-    // monta a lista de questions que será enviada pelo post
-    // removo as answers que nao tem texto ou imagem antes de colocar no questions
+    // remove empty answers
     for (let i = 0; i < allTitlesSelected.length; i++) {
         let arrayIJ = [];
         for (let j = 0; j < answersArray[i].length; j++) {
@@ -432,9 +451,8 @@ function continueToLevels() {
 }
 
 function filterQuestions() {
-    
-    //.replace(/\s/g, '').length
-    // texto da pergunta != vazio e mais de 20 characteres
+
+    // text > 20
     for (let i = 0; i < questionsArray.length; i++) {
         if (questionsArray[i].title.replace(/\s/g, '').length < 20 || questionsArray[i].title === '') {
             alert(`Texto da Pergunta ${i+1} errado`);
@@ -442,15 +460,15 @@ function filterQuestions() {
         }
     }
 
-    // cor de fundo != vazio #...
+    // color format
     for (let i = 0; i < questionsArray.length; i++) {
         if (isHexadecimal(questionsArray[i].color) === false) {
-            alert(`Color da Pergunda ${i+1} errada`);
+            alert(`Cor da Pergunda ${i+1} formato inválido`);
             return false;
         }
     }
 
-    // as duas primeiras respostas não podem estar vazias, entao acesso todos os arrays i j
+    // first and second question can't be empty
     for (let i = 0; i < answersArray.length; i++) {
         for (let j = 0; j < 2; j++) {
             if (answersArray[i][j].text.replace(/\s/g, '').length === 0 || answersArray[i][j].image.replace(/\s/g, '').length === 0 || !isURL(answersArray[i][j].image)) {
@@ -464,9 +482,9 @@ function filterQuestions() {
         }
     }
 
-    // verificacao se é URL
+    // URL check
     for (let i = 0; i < answersArray.length; i++) {
-        for (let j = 0; j < answersArray[i].length; j++) {
+        for (let j = 0; j < 2; j++) {
             if (!isURL(answersArray[i][j].image)) {
                 alert(`URL ${j} inválida`)
                 return false;
@@ -482,7 +500,6 @@ function isHexadecimal(string) {
 
     string = string.toLowerCase();
 
-    // recebe uma string e verifica se o primeiro caracter é # e se cada letra está entre A e F
     const aToF = ['a','b','c','d','e','f','0','1','2','3','4','5','6','7','8','9'];
 
     if (string.length !== 7) {
@@ -519,10 +536,10 @@ function showLevels(num) {
                 
                 <div class="closed hidden">
                     <div class="level-info sub-sub-title"><p>Nível ${i}</p>
-                        <input class="level-title" data-identifier="level" placeholder="Título do nível" type="text" value="aaaaaaaaaa">
-                        <input class="percentage" data-identifier="level" placeholder="% de acerto mínima" type="text" value="0">
-                        <input class="level-url" data-identifier="level" placeholder="URL da imagem do nível" type="text" value="https://http.cat/412.jpg">
-                        <input class="level-description" data-identifier="level" placeholder="Descrição do nível" type="text" value="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
+                        <input class="level-title" data-identifier="level" placeholder="Título do nível" type="text">
+                        <input class="percentage" data-identifier="level" placeholder="% de acerto mínima" type="text">
+                        <input class="level-url" data-identifier="level" placeholder="URL da imagem do nível" type="text">
+                        <input class="level-description" data-identifier="level" placeholder="Descrição do nível" type="text">
                     </div>
                 </div>
 
@@ -538,21 +555,20 @@ function showLevels(num) {
 }
 
 function maximizeLevel(level) {
-
-    // encontro quem está aberto dentro de questions e fecho
+    
     const openLevel = levels.querySelector('.open');
     openLevel.classList.add('closed');
     openLevel.classList.add('hidden');
     openLevel.classList.remove('open');
 
-    // encontro o irmão minimize que está hidden e tiro o hidden
+ 
     const minimize = openLevel.parentNode.querySelector('.minimize');
     minimize.classList.remove('hidden');
 
-    // coloco hidden no elemento minimize que foi clicado
+
     level.classList.add('hidden');
 
-    // encontro o irmão closed que está hidden, tiro ambas as classes e coloco open
+
     const closedDiv = level.parentNode.querySelector('.closed');
     closedDiv.classList.remove('closed');
     closedDiv.classList.remove('hidden');
@@ -561,9 +577,8 @@ function maximizeLevel(level) {
 
 
 function finishQuizz() {
-    // se tiver tudo OK na aba Levels
+
     if (filterLevels()) {
-        
         levelsArray = [];
         const allLevelsTitles = document.querySelectorAll('.levels .level-title');
         const allLevelsPercentages = document.querySelectorAll('.levels .percentage');
@@ -579,15 +594,16 @@ function finishQuizz() {
         const sendToServer = axios.post('https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes',completedQuizz);
         sendToServer.then(goToFinalCreationPage);
 
+        levels.classList.add('hidden');
+        loading.classList.remove('hidden');
     }
 }
 
 let currentIdCreated;
 
 function goToFinalCreationPage(createdQuizz) {
-       
-    //armezeno o createdQuizz no localStorage identificado pelo ID
-    const stringFormOfCreatedQuizz = JSON.stringify(createdQuizz.data); 
+
+    const stringFormOfCreatedQuizz = JSON.stringify(createdQuizz); 
     localStorage.setItem(`${createdQuizz.data.id}`,stringFormOfCreatedQuizz);
     currentIdCreated = createdQuizz.data.id;
 
@@ -609,7 +625,7 @@ function goToFinalCreationPage(createdQuizz) {
             `;
     }
     
-    levels.classList.add('hidden');
+    loading.classList.add('hidden');
     ending.classList.remove('hidden');
 }
 
@@ -618,10 +634,11 @@ function accessCreatedQuizz() {
     ending.classList.add('hidden');
     layout3.classList.add('hidden');
 
-    const normalFormOfStringify = JSON.parse(localStorage.getItem(`${currentIdCreated}`));
-    const getActualQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${normalFormOfStringify.id}`);
+    
+    const getActualQuizz = axios.get(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${currentIdCreated}`);
     getActualQuizz.then(showSelectedQuizz);
     
+    loading.classList.remove('hidden');
 }
 
 function filterLevels() {
@@ -632,7 +649,7 @@ function filterLevels() {
     const levelDescriptionSelected = document.querySelectorAll('.levels .level-description');
 
 
-    // titulo do nivel min 10 caracteres 
+    // title > 10 characters
     for (let i = 0; i < levelTitlesSelected.length; i++) {
         if (levelTitlesSelected[i].value.replace(/\s/g, '').length < 10) {
             alert(`Título ${i+1} muito curto`);
@@ -640,7 +657,7 @@ function filterLevels() {
         }
     }
 
-    // % entre 0 e 100
+    // % between 0 e 100
     for (let i = 0; i < levelPercentages.length; i++) {
         if (levelPercentages[i].value % 1 !== 0 || levelPercentages[i].value < 0 || levelPercentages[i].value > 100 || isNaN(parseInt(levelPercentages[i].value)) ) {
             alert(`Porcentagem ${i+1} no formato errado`);
@@ -648,14 +665,14 @@ function filterLevels() {
         }
     }
 
-    // verificacao de URL
+    // URL check
     if (!isURL(levelUrlSelected.value)) {
         alert('Digite um link válido');
         return false;
     }
 
 
-    // descricao do nivel min 30 caracteres
+    // level description > 30 characters
     for (let i = 0; i < levelDescriptionSelected.length; i++) {
         if (levelDescriptionSelected[i].value.replace(/\s/g, '').length < 30) {
             alert(`Descrição ${i+1} muito curta`);
@@ -663,7 +680,7 @@ function filterLevels() {
         }
     }
 
-    // pelo menos uma porcentagem de acerto seja 0
+    // at least one % equal to 0
     let isZero = false;
     for (let i = 0; i < levelPercentages.length; i++) {
         if (parseInt(levelPercentages[i].value) === 0) {
@@ -688,4 +705,14 @@ function isURL(str) {
     '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
 
     return pattern.test(str);
+}
+
+function deleteQuizz(ionIcon) {
+    const currentId = ionIcon.parentNode.parentNode.id;
+    const normalFormOfStringify = JSON.parse(localStorage.getItem(`${currentId}`));
+    if(window.confirm('Quer mesmo remover esse Quizz?')) {
+        axios.delete(`https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes/${currentId}`,{headers: {'Secret-Key':`${normalFormOfStringify.data.key}`}}).then(reloadPage);
+    } else {
+        reloadPage();
+    }
 }
