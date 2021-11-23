@@ -15,6 +15,16 @@ const questionsQuantity = document.querySelector('.input-questions-quantity');
 const levelsQuantity = document.querySelector('.input-levels-quantity');
 
 let quizzPromise;
+let howManyQuizz;
+let reloadedQuizz;
+
+let cont = 0;
+let cont2 = 0
+let contTrue = 0;
+
+function comparador() { 
+	return Math.random() - 0.5; 
+}
 
 function getQuizzes() {   
     const quizzes = axios.get("https://mock-api.driven.com.br/api/v4/buzzquizz/quizzes");
@@ -72,13 +82,6 @@ function openQuizz(quizz) {
     selectedQuizz.then(showSelectedQuizz);
 }
 
-function comparador() { 
-	return Math.random() - 0.5; 
-}
-
-let cont = 0;
-let cont2 = 0
-let contTrue = 0;
 function selectAnswersQuizz(selectedAnswer){
     cont ++;
 
@@ -116,8 +119,6 @@ function scrollPage(){
     }
 }
 
-let howManyQuizz;
-let abcdefgh;
 function showSelectedQuizz(selectedQuizz) {
     // vai para o Layout 2 do quizz clicado
     // esconde o layout-1
@@ -125,7 +126,7 @@ function showSelectedQuizz(selectedQuizz) {
     // tira o escondido do layout-2
     layout2.classList.remove('hidden');
     scrollUp.scrollIntoView({behavior:"smooth"});
-    abcdefgh = selectedQuizz;
+    reloadedQuizz = selectedQuizz;
 
     quizzPromise = selectedQuizz.data;
     howManyQuizz = quizzPromise.questions.length;
@@ -239,8 +240,8 @@ function showSelectedQuizz(selectedQuizz) {
 
 
 function resultQuizz(){
-    const x = contTrue/howManyQuizz;
-    const percentage = Math.floor(x);
+    const percent = contTrue/howManyQuizz;
+    const percentage = Math.floor(percent);
     for(let i = quizzPromise.levels.length; i  > 0 ; i--){
         if(percentage >= quizzPromise.levels[i-1].minValue){
             layout2.innerHTML +=`
@@ -253,7 +254,7 @@ function resultQuizz(){
                     <P>${quizzPromise.levels[i-1].text}</P>
                 </div class="buttons-settings">
                     <button class="button-reload" onclick="reloadQuizz(this)">Reiniciar Quizz</button>
-                    <button class="button-home" onclick="returnLayout1()(this)">Voltar pra home</button>
+                    <button class="button-home" onclick="reloadPage()">Voltar pra home</button>
                 </div>
             `
             break;
@@ -264,18 +265,11 @@ const scrollUp = document.querySelector(".layout-2");
 
 function reloadQuizz(){
     layout2.innerHTML =" ";
-    showSelectedQuizz(abcdefgh);
+    showSelectedQuizz(reloadedQuizz);
     cont = 0;
     contTrue = 0;
     cont2 = 0;
 }
-
-function returnLayout1(){
-    reloadQuizz();
-    layout2.classList.add('hidden');
-    layout1.classList.remove('hidden');
-}
-
 
 function createQuizz() {   
     layout1.classList.add('hidden');
